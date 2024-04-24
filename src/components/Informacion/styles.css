@@ -82,3 +82,8 @@
 .sidebar-2.open nav > button {
   width: 100%;
 }
+.footer-White{
+  text-align: center;
+  margin-top: 25px;
+  color: white;
+}
