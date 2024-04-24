@@ -1,8 +1,16 @@
 import { useState } from "react";
-import logo from "./logo.svg";
+import logo from "./logo3.svg";
 import "./styles.css";
 
-const navItems = ["home", "settings", "build", "cloud", "mail", "bookmark"];
+const navItems = [
+  { name: "home", title: "Información" },
+  { name: "person", title: "Usuario" },
+  { name: "toolbar", title: "Encuesta" },
+  { name: "cardiology", title: "Signos" },
+  { name: "mood", title: "Estrés" },
+  { name: "timeline", title: "Resultados" },
+  { name: "info", title: "Autor Isaac Romero" }
+];
 
 export const Sidebar2 = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,15 +28,18 @@ export const Sidebar2 = () => {
                 {isOpen ? "close" : "menu"}
               </span>
             </button>
-            <img src={logo} />
+            <img src={logo} style={{ width: "200px", height: "auto" }} />
           </header>
           <nav>
             {navItems.map((item) => (
-              <button key={item} type="button">
-                <span className="material-symbols-outlined">{item}</span>
-                <p>{item}</p>
+              <button key={item.name} type="button">
+                <span className="material-symbols-outlined">{item.name}</span>
+                <p>{item.title}</p>
               </button>
             ))}
+            {/* <div>
+            <small>Desarrollado por Isaac Romero</small>
+            </div> */}
           </nav>
         </div>
       </aside>
