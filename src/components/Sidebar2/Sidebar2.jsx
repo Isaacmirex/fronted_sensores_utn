@@ -4,11 +4,13 @@ import "./styles.css";
 
 const navItems = [
   { name: "home", title: "Información" },
-  { name: "person", title: "Usuario" },
-  { name: "toolbar", title: "Encuesta" },
-  { name: "cardiology", title: "Signos" },
+  { name: "person", title: "Paciente" },
+  { name: "toolbar", title: "Encuesta EPP" },
+  { name: "cardiology", title: "Signos Vitales" },
   { name: "mood", title: "Estrés" },
-  { name: "timeline", title: "Resultados" },
+  { name: "timeline", title: "Resultados por paciente" },
+  { name: "Analytics", title: "Resultados globales" },
+  { name: "help", title: "Manual de uso" },
   { name: "info", title: "Autor Isaac Romero" }
 ];
 
