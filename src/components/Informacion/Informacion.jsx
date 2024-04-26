@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 
-const Info = () => {
+const Informacion = () => {
   return (
     <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32">
       <img
@@ -57,4 +57,4 @@ const Info = () => {
   );
 };
 
-export default Info;
+export default Informacion;

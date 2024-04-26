@@ -3,15 +3,17 @@ import logo from "./logo3.svg";
 import "./styles.css";
 
 const navItems = [
-  { name: "home", title: "Información" },
-  { name: "person", title: "Paciente" },
-  { name: "toolbar", title: "Encuesta EPP" },
+  { name: "home", title: "inicio" },
+  { name: "person_add", title: "Paciente" },
+  { name: "Inventory", title: "Encuesta EPP" },
   { name: "cardiology", title: "Signos Vitales" },
-  { name: "mood", title: "Estrés" },
-  { name: "timeline", title: "Resultados por paciente" },
-  { name: "Analytics", title: "Resultados globales" },
-  { name: "help", title: "Manual de uso" },
-  { name: "info", title: "Autor Isaac Romero" }
+  { name: "Person_Celebrate", title: "Estrés" },
+  { name: "Data_loss_Prevention", title: "Resultados por paciente" },
+  { name: "Data_Usage", title: "Resultados globales" },
+  { name: "book_4", title: "Manual de usuario" },
+  { name: "Warning", title: "Reportar un fallo" },
+  { name: "Hail", title: "Autor Isaac Romero" },
+  { name: "logout", title: "Cerrar sesión" }
 ];
 
 export const Sidebar2 = () => {
