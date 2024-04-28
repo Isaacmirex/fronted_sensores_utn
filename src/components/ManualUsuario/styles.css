@@ -1,5 +1,5 @@
 .page.sidebar-2-page {
-  background: #ffffff;
+  background: #023E8A;
 }
 
 .sidebar-2 {
@@ -7,9 +7,9 @@
   overflow: hidden;
   top: 0;
   left: 0;
-  width: 53px;
+  width: 56px;
   height: 100%;
-  background: #2ab47ba4;
+  background: #000000a4;
   transition: width 0.4s;
 }
 
@@ -50,41 +50,35 @@
   gap: 2px;
 }
 
-.sidebar-button {
+.sidebar-2 nav > button {
   display: flex;
   gap: 12px;
   align-items: center;
   height: 44px;
-  width: 100%;
+  width: 44px;
   font-family: "Poppins";
   font-size: 16px;
   text-transform: capitalize;
   line-height: 1;
   padding: 0 12px;
   border-radius: 8px;
-  color: #000000;
-  background: none;
-  border: none;
+  color: #71a5a4;
 }
 
-.sidebar-button:hover {
+.sidebar-2 nav > button:hover {
   background: rgb(0 0 0 / 30%);
 }
 
-.sidebar-button p {
+.sidebar-2 header > img,
+.sidebar-2 nav > button p {
   opacity: 0;
   transition: 0.3s;
 }
 
-.sidebar-2.open .sidebar-button p {
+.sidebar-2.open :is(nav button p, header > img) {
   opacity: 1;
 }
 
-.sidebar-link {
-  text-decoration: none;
-  color: inherit;
-}
-
-.sidebar-link.active .sidebar-button {
-  background: rgba(255, 255, 255, 0.1);
+.sidebar-2.open nav > button {
+  width: 100%;
 }
