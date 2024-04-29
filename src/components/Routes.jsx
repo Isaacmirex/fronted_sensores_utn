@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Switch, Route } from "react-router-dom";
 import HOME from "./Home/Home";
 import PACIENTE from "./Paciente/Paciente";

@@ -1,23 +1,21 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
+import "./styles.css"; // Importa tu archivo CSS de estilos
 
 const Home = () => {
   return (
-    <div>
-      <h1>Home</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at
-        semper libero, vel varius libero. Donec suscipit tortor vel velit
-        malesuada, ac posuere lectus fermentum. Duis hendrerit vehicula mi,
-        eget luctus libero condimentum vel. Pellentesque habitant morbi
-        tristique senectus et netus et malesuada fames ac turpis egestas.
-        Integer aliquam leo sit amet ante placerat tincidunt. Mauris et nisi
-        at lectus vestibulum placerat. Duis sollicitudin malesuada erat, sed
-        bibendum enim dictum vel. Curabitur dapibus magna in ante sodales
-        malesuada. Nam volutpat libero eu tincidunt accumsan. Mauris rutrum
-        justo sit amet dapibus convallis. Phasellus elementum mi et tortor
-        finibus, in fermentum tortor sollicitudin. Aliquam erat volutpat.
-        Fusce sit amet consectetur felis, nec ullamcorper purus.
-      </p>
+    <div className="home-container">
+      <header>
+        <h1>Detector de Estrés con Inteligencia Artificial</h1>
+      </header>
+      <section className="content">
+        <p>
+          El detector de estrés es una aplicación web que utiliza un dispositivo hardware para recolectar datos biométricos de los usuarios. Estos datos se procesan mediante un modelo de inteligencia artificial, que luego proporciona un porcentaje de estrés para cada paciente. Los resultados se presentan en un dashboard que ofrece una visión general del estrés en la universidad, clasificando los datos por facultades con el fin de mitigar el problema.
+        </p>
+      </section>
+      <footer>
+        <p>Desarrollado por Isaac Romero - 2024</p>
+      </footer>
     </div>
   );
 };
