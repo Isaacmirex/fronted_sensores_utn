@@ -1,18 +1,16 @@
 .app {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 25vh;
+  display: flex; /* Cambiado de grid a flex */
+  height: 100vh; /* Toma toda la altura de la pantalla */
 }
 
-.app a {
-  display: grid;
-  place-items: center;
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-  background: rgb(255 255 255 / 9%);
+.nav {
+  width: 260px; /* Ancho del navbar */
+  background: #2ab47ba4; /* Color de fondo del navbar */
 }
 
-.app a:nth-child(odd) {
-  background: rgb(255 255 255 / 6%);
+.content {
+  flex: 1; /* El contenido ocupa todo el espacio restante */
+  background: #000000; /* Cambiado a color negro */
+  color: #ffffff; /* Color de texto blanco */
+  overflow-y: auto; /* Permite desplazamiento vertical si el contenido es largo */
 }
