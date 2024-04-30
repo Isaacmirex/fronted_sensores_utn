@@ -2,8 +2,35 @@
 body {
   margin: 0; /* Asegura que no haya ningún margen */
   padding: 0; /* Asegura que no haya ningún relleno */
+}
+
+.home-container {
+  height: 97vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
   background-image: url('https://images.pexels.com/photos/3807738/pexels-photo-3807738.jpeg');
-  background-size: cover; /* Cubre toda la página */
+  background-size: cover; /* Cubre todo el fondo */
   background-position: center; /* Centra la imagen */
-  filter: opacity(0.7); /* Aplica un filtro para opacar la imagen */
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1; /* El contenido ocupa todo el espacio restante */
+  background: rgba(0, 0, 0, 0.7); /* Color de fondo negro con opacidad */
+  color: #ffffff; /* Color de texto blanco */
+  padding: 20px; /* Añade un espacio de relleno al contenido */
+  text-align: justify; /* Justifica el texto */
+  font-size: 20px; /* Tamaño de fuente aumentado */
+}
+
+h1 {
+  text-align: center; /* Centra el título */
+}
+
+footer {
+  margin-top: auto; /* Mantiene el footer en la parte inferior */
+  text-align: center; /* Centra el texto */
+  font-size: 14px; /* Tamaño de fuente más pequeño */
+  background: rgba(0, 0, 0, 0.7); /* Color de fondo del footer */
+  color: #ffffff; /* Color de texto blanco */
+  padding: 10px 0; /* Añade espacio de relleno vertical */
 }

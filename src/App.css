@@ -10,7 +10,7 @@
 
 .content {
   flex: 1; /* El contenido ocupa todo el espacio restante */
-  background: #000000; /* Cambiado a color negro */
-  color: #ffffff; /* Color de texto blanco */
-  overflow-y: auto; /* Permite desplazamiento vertical si el contenido es largo */
+  /* background: #000000; /* Cambiado a color negro */
+  /* color: #ffffff; Color de texto blanco */
+  /* overflow-y: auto; Permite desplazamiento vertical si el contenido es largo */ 
 }
