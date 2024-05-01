@@ -24,6 +24,9 @@ body {
 
 h1 {
   text-align: center; /* Centra el título */
+  color: #00ece0; 
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 footer {
@@ -33,4 +36,15 @@ footer {
   background: rgba(0, 0, 0, 0.7); /* Color de fondo del footer */
   color: #ffffff; /* Color de texto blanco */
   padding: 10px 0; /* Añade espacio de relleno vertical */
+}
+
+.image-container {
+  display: flex;
+  justify-content: space-around; /* Distribuye las imágenes de manera uniforme */
+  margin-top: 100px; /* Añade espacio entre el texto y las imágenes */
+}
+
+.image {
+  max-width: 30%; /* Establece el ancho máximo para las imágenes */
+  height: auto; /* Ajusta la altura automáticamente */
 }
