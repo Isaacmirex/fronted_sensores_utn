@@ -1,202 +1,289 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import withReactContent from 'sweetalert2';
+import { show_alerta } from './Functions';
 
 const Paciente = () => {
+  const url = 'https://web-production-8f98.up.railway.app/api/usuarios/';
   const [pacientes, setPacientes] = useState([]);
-  const [showDialog, setShowDialog] = useState(false);
-  const [datos, setDatos] = useState({
-    usr_id: 1,
-    usr_edad: 23,
-    usr_peso: 63.0,
-    usr_altura: 167.0,
-    usr_genero: "M",
-    usr_hijos: 0,
-    usr_vive_solo: 0,
-    usr_facultad: "FICA",
-    usr_trabaja: 0,
-    usr_estres: 20
-  });
-  const [searchId, setSearchId] = useState("");
-
-  const fetchData = () => {
-    // Llamada a la API para obtener la lista de pacientes
-    axios.get('https://web-production-8f98.up.railway.app/api/usuarios/')
-      .then(response => {
-        setPacientes(response.data);
-      })
-      .catch(error => {
-        console.error('Error al obtener pacientes:', error.message);
-      });
-  };
+  const [usr_id, setId] = useState('');
+  const [usr_edad, setEdad] = useState('');
+  const [usr_peso, setPeso] = useState('');
+  const [usr_altura, setAltura] = useState('');
+  const [usr_genero, setGenero] = useState('');
+  const [usr_hijos, setHijos] = useState('');
+  const [usr_vive_solo, setViveSolo] = useState('');
+  const [usr_facultad, setFacultad] = useState('');
+  const [usr_trabaja, setTrabaja] = useState('');
+  const [usr_estres, setEstres] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [patientsPerPage] = useState(7); // Cambiado a 7
 
   useEffect(() => {
-    fetchData();
-  }, []); // Se ejecuta solo una vez al cargar el componente
+    getPacientes();
+  }, []);
 
-  const handleChange = (e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setDatos({
-      ...datos,
-      [e.target.name]: value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setShowDialog(true);
-  };
-
-  const handleConfirmation = () => {
-    axios.post('https://web-production-8f98.up.railway.app/api/usuarios/', datos)
-      .then(response => {
-        console.log('Datos enviados:', response.data);
-        setShowDialog(false);
-        fetchData(); // Actualizar la lista de pacientes después de agregar uno nuevo
-      })
-      .catch(error => {
-        console.error('Error:', error.message);
-      });
-  };
-
-  const handleSearch = () => {
-    // Realizar búsqueda por ID
-    if (searchId !== "") {
-      axios.get(`https://web-production-8f98.up.railway.app/api/usuarios/${searchId}`)
-        .then(response => {
-          setPacientes([response.data]); // Mostrar solo el paciente encontrado
-        })
-        .catch(error => {
-          console.error('Error al buscar paciente:', error.message);
-        });
-    } else {
-      fetchData(); // Si no se proporciona un ID, cargar todos los pacientes
+  const getPacientes = async () => {
+    try {
+      const respuesta = await axios.get(url);
+      setPacientes(respuesta.data);
+    } catch (error) {
+      console.error('Error al obtener pacientes:', error);
     }
   };
 
-  return (
-    <div className="home-container" style={{backgroundImage: "url('https://images.pexels.com/photos/7176325/pexels-photo-7176325.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')"}}>
-      <div className="content">
-        <h1 className="text-3xl font-bold mb-4 text-center">Paciente</h1>
-        <div className="flex justify-center">
-          <input
-            type="number"
-            placeholder="Buscar por ID"
-            value={searchId}
-            onChange={(e) => setSearchId(e.target.value)}
-            className="form-input mr-4"
-          />
-          <button onClick={handleSearch} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md">Buscar</button>
-        </div>
-        <Formulario datos={datos} setDatos={setDatos} handleChange={handleChange} handleSubmit={handleSubmit} />
-        {showDialog && (
-          <Dialog handleConfirmation={handleConfirmation} setShowDialog={setShowDialog} />
-        )}
-        <TablaPacientes pacientes={pacientes} fetchData={fetchData} />
-      </div>
-      <footer className="text-center text-sm bg-gray-800 text-white py-2">
-        <p>Desarrollado por Isaac Romero - 2024</p>
-      </footer>
-    </div>
-  );
-};
+  const handleGuardar = async () => {
+    const nuevoPaciente = {
+      usr_id,
+      usr_edad,
+      usr_peso,
+      usr_altura,
+      usr_genero,
+      usr_hijos,
+      usr_vive_solo,
+      usr_facultad,
+      usr_trabaja,
+      usr_estres
+    };
 
-const Formulario = ({ datos, setDatos, handleChange, handleSubmit }) => {
-  return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-lg bg-white p-6 rounded-lg shadow-md mt-8">
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block mb-2">
-            Edad:
-            <input
-              type="number"
-              name="usr_edad"
-              value={datos.usr_edad}
-              onChange={handleChange}
-              className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            />
-          </label>
-          {/* Agregar más campos del formulario aquí */}
-        </div>
-      </div>
-      <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md mt-4 shadow-md">Enviar</button>
-    </form>
-  );
-};
-
-const Dialog = ({ handleConfirmation, setShowDialog }) => {
-  const handleConfirm = () => {
-    handleConfirmation();
-  };
-
-  const handleClose = () => {
-    setShowDialog(false);
-  };
-
-  return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <p>¿Está de acuerdo con las normas y contrato de la toma de estrés?</p>
-        <div className="flex justify-end mt-4">
-          <button onClick={handleClose} className="mr-2 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md">No</button>
-          <button onClick={handleConfirm} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md">Sí</button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const TablaPacientes = ({ pacientes, fetchData }) => {
-  const handleDelete = (id) => {
-    // Lógica para eliminar un paciente por su ID
-    axios.delete(`https://web-production-8f98.up.railway.app/api/usuarios/${id}`)
-      .then(() => {
-        fetchData(); // Actualizar la lista de pacientes después de eliminar uno
-      })
-      .catch(error => {
-        console.error('Error al eliminar paciente:', error.message);
+    try {
+      const respuesta = await axios.post(url, nuevoPaciente);
+      setPacientes([...pacientes, respuesta.data]);
+      setId('');
+      setEdad('');
+      setPeso('');
+      setAltura('');
+      setGenero('');
+      setHijos('');
+      setViveSolo('');
+      setFacultad('');
+      setTrabaja('');
+      setEstres('');
+      Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: 'Paciente agregado correctamente'
       });
+    } catch (error) {
+      console.error('Error al guardar paciente:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un error al guardar el paciente'
+      });
+    }
+  };
+
+  const deletePaciente = (id) => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "¿Seguro que quieres eliminar al paciente " + id + "?",
+      icon: 'question',
+      text: 'No se podrá recuperar lo eliminado',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        enviarSolicitud('DELETE', { id: id });
+      } else {
+        show_alerta('El paciente NO fue eliminado', 'info');
+      }
+    });
+  };
+
+  const enviarSolicitud = async (metodo, parametros) => {
+    try {
+      await axios({ method: metodo, url: url, data: parametros });
+      show_alerta('Paciente eliminado correctamente', 'success');
+      getPacientes();
+    } catch (error) {
+      show_alerta('Error en la solicitud', 'error');
+      console.log(error);
+    }
+  };
+
+  const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, facultad, trabaja, estres) => {
+    setId('');
+    setEdad('');
+    setPeso('');
+    setAltura('');
+    setGenero('');
+    setHijos('');
+    setViveSolo('');
+    setFacultad('');
+    setTrabaja('');
+    setEstres('');
+    if (op === 1) {
+      setModalTitle('Registrar Paciente');
+    } else if (op === 2) {
+      setModalTitle('Editar Paciente');
+      setId(id);
+      setEdad(edad);
+      setPeso(peso);
+      setAltura(altura);
+      setGenero(genero);
+      setHijos(hijos);
+      setViveSolo(vive_solo);
+      setFacultad(facultad);
+      setTrabaja(trabaja);
+      setEstres(estres);
+    }
+    window.setTimeout(function () {
+      document.getElementById('id').focus();
+    }, 500)
+  };
+
+  // Get current patients
+  const indexOfLastPatient = currentPage * patientsPerPage;
+  const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
+  const currentPatients = pacientes.slice(indexOfFirstPatient, indexOfLastPatient);
+
+  // Change page
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
-    <div className="mt-8">
-      <h2 className="text-xl font-bold mb-4">Lista de Pacientes</h2>
-      <table className="w-full table-auto">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Edad</th>
-            <th>Peso</th>
-            <th>Altura</th>
-            <th>Género</th>
-            <th>Número de Hijos</th>
-            <th>Vive Solo</th>
-            <th>Facultad</th>
-            <th>Trabaja</th>
-            <th>Nivel de Estrés</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pacientes.map(paciente => (
-            <tr key={paciente.id}>
-              <td>{paciente.usr_id}</td>
-              <td>{paciente.usr_edad}</td>
-              <td>{paciente.usr_peso}</td>
-              <td>{paciente.usr_altura}</td>
-              <td>{paciente.usr_genero}</td>
-              <td>{paciente.usr_hijos}</td>
-              <td>{paciente.usr_vive_solo ? 'Sí' : 'No'}</td>
-              <td>{paciente.usr_facultad}</td>
-              <td>{paciente.usr_trabaja ? 'Sí' : 'No'}</td>
-              <td>{paciente.usr_estres}</td>
-              <td>
-                <button onClick={() => handleDelete(paciente.id)} className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-md mr-2">Eliminar</button>
-                {/* Agregar botones para editar u otras acciones aquí */}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div>
+      <h1>Hola Mundo</h1>
+      <div className='container-fluid'>
+        <div className='row mt-3'>
+          <div className='col-md-4 offset-md-4'>
+            <div className='d-grid mx-auto'>
+              <button className='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalPacientes'>
+                <i className='fas fa-plus-circle'></i> Añadir
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className='modal fade' id='modalPacientes'>
+        <div className='modal-dialog'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h5 className='modal-title'>{modalTitle}</h5>
+              <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+            </div>
+            <div className='modal-body'>
+              <form>
+                <div className='form-group'>
+                  <label htmlFor='usr_id'>ID</label>
+                  <input id='usr_id' type='text' className='form-control' value={usr_id} onChange={e => setId(e.target.value)} placeholder='ID' />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='usr_edad'>Edad</label>
+                  <input id='usr_edad' type='text' className='form-control' value={usr_edad} onChange={e => setEdad(e.target.value)} placeholder='Edad' />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='usr_peso'>Peso</label>
+                  <input id='usr_peso' type='text' className='form-control' value={usr_peso} onChange={e => setPeso(e.target.value)} placeholder='Peso' />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='usr_altura'>Altura</label>
+                  <input id='usr_altura' type='text' className='form-control' value={usr_altura} onChange={e => setAltura(e.target.value)} placeholder='Altura' />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='usr_genero'>Género</label>
+                  <input id='usr_genero' type='text' className='form-control' value={usr_genero} onChange={e => setGenero(e.target.value)} placeholder='Género' />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='usr_hijos'>Hijos</label>
+                  <input id='usr_hijos' type='text' className='form-control' value={usr_hijos} onChange={e => setHijos(e.target.value)} placeholder='Hijos' />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='usr_vive_solo'>Vive Solo</label>
+                  <input id='usr_vive_solo' type='text' className='form-control' value={usr_vive_solo} onChange={e => setViveSolo(e.target.value)} placeholder='Vive Solo' />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='usr_facultad'>Facultad</label>
+                  <input id='usr_facultad' type='text' className='form-control' value={usr_facultad} onChange={e => setFacultad(e.target.value)} placeholder='Facultad' />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='usr_trabaja'>Trabaja</label>
+                  <input id='usr_trabaja' type='text' className='form-control' value={usr_trabaja} onChange={e => setTrabaja(e.target.value)} placeholder='Trabaja' />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='usr_estres'>Estrés</label>
+                  <input id='usr_estres' type='text' className='form-control' value={usr_estres} onChange={e => setEstres(e.target.value)} placeholder='Estrés' />
+                </div>
+              </form>
+            </div>
+            <div className='modal-footer'>
+              <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
+              <button type='button' className='btn btn-primary' onClick={handleGuardar}>
+                <i className='fas fa-save'></i> Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className='container-fluid'>
+        <div className='row mt-3'>
+          <div className='col-12 col-lg-8 offset-0 offset-lg-12'>
+            <div className='table-responsive'>
+              <table className='table table-bordered'>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Edad</th>
+                    <th>Peso</th>
+                    <th>Altura</th>
+                    <th>Género</th>
+                    <th>Hijos</th>
+                    <th>Vive Solo</th>
+                    <th>Facultad</th>
+                    <th>Trabaja</th>
+                    <th>Estrés</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody className='table-group-divider'>
+                  {currentPatients.map((paciente, id) => (
+                    <tr key={id}>
+                      <td>{paciente.usr_id}</td>
+                      <td>{paciente.usr_edad}</td>
+                      <td>{paciente.usr_peso}</td>
+                      <td>{paciente.usr_altura}</td>
+                      <td>{paciente.usr_genero}</td>
+                      <td>{paciente.usr_hijos}</td>
+                      <td>{paciente.usr_vive_solo}</td>
+                      <td>{paciente.usr_facultad}</td>
+                      <td>{paciente.usr_trabaja}</td>
+                      <td>{paciente.usr_estres}</td>
+                      <td>
+                        <button onClick={() => openModal(2, paciente.id, paciente.edad, paciente.peso, paciente.altura, paciente.genero, paciente.hijos, paciente.vive_solo, paciente.facultad, paciente.trabaja, paciente.estres)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='modalPacientes'>
+                          <i className='fa-solid fa-edit'></i>
+                        </button>
+                        &nbsp;
+                        <button onClick={() => deletePaciente(paciente.id)} className='btn btn-danger'>
+                          <i className='fa-solid fa-trash'></i>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {/* Pagination */}
+            <nav>
+              <ul className='pagination'>
+                {Array.from({ length: Math.ceil(pacientes.length / patientsPerPage) }, (_, i) => (
+                  <li key={i} className='page-item'>
+                    <button onClick={() => paginate(i + 1)} className='page-link'>
+                      {i + 1}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
