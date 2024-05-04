@@ -29,7 +29,7 @@ h1 {
   text-transform: uppercase;
 }
 
-footer {
+.footerHome {
   margin-top: auto; /* Mantiene el footer en la parte inferior */
   text-align: center; /* Centra el texto */
   font-size: 14px; /* Tamaño de fuente más pequeño */

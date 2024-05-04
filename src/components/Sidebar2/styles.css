@@ -7,14 +7,9 @@
   overflow: hidden;
   top: 0;
   left: 0;
-  width: 50px;
+  width: 260px; /* Ancho fijo para mantenerlo siempre abierto */
   height: 100%;
   background: #10d0aca4;
-  transition: width 0.4s;
-}
-
-.sidebar-2.open {
-  width: 260px;
 }
 
 .sidebar-2 .inner {
@@ -30,18 +25,6 @@
   height: 64px;
   padding: 0 6px;
   background: rgb(0 0 0 / 25%);
-}
-
-.sidebar-2-burger {
-  width: 44px;
-  height: 72px;
-  display: grid;
-  place-items: center;
-  color: #f9f9f9;
-}
-
-.sidebar-2 header > img {
-  height: 28px;
 }
 
 .sidebar-2 nav {
@@ -72,7 +55,7 @@
 }
 
 .sidebar-button p {
-  opacity: 0;
+  opacity: 1;
   transition: 0.3s;
 }
 

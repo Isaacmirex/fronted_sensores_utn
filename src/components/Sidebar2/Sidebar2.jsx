@@ -32,7 +32,7 @@ export const Sidebar2 = () => {
       <aside className={`sidebar-2 ${isOpen ? "open" : ""}`}>
         <div className="inner">
           <header>
-            <button
+            {/* <button
               type="button"
               className="sidebar-2-burger"
               onClick={() => setIsOpen(!isOpen)}
@@ -40,7 +40,7 @@ export const Sidebar2 = () => {
               <span className="material-symbols-outlined">
                 {isOpen ? "close" : "menu"}
               </span>
-            </button>
+            </button> */}
             <img src={logo} style={{ width: "200px", height: "auto" }} alt="Logo" />
           </header>
           <nav>

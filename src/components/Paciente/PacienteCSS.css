@@ -1,0 +1,37 @@
+
+  .content {
+    flex: 1; /* El contenido ocupa todo el espacio restante */
+    background: rgba(0, 0, 0, 0.7); /* Color de fondo negro con opacidad */
+    color: #ffffff; /* Color de texto blanco */
+    padding: 20px; /* Añade un espacio de relleno al contenido */
+    text-align: justify; /* Justifica el texto */
+    font-size: 20px; /* Tamaño de fuente aumentado */
+  }
+  
+  h1 {
+    text-align: center; /* Centra el título */
+    color: #27f7e9; 
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  footer {
+    margin-top: auto; /* Mantiene el footer en la parte inferior */
+    text-align: center; /* Centra el texto */
+    font-size: 14px; /* Tamaño de fuente más pequeño */
+    background: rgba(241, 236, 236, 0); /* Color de fondo del footer */
+    color: #ffffff; /* Color de texto blanco */
+    padding: 10px 0; /* Añade espacio de relleno vertical */
+  }
+  
+  .image-container {
+    display: flex;
+    justify-content: space-around; /* Distribuye las imágenes de manera uniforme */
+    margin-top: 100px; /* Añade espacio entre el texto y las imágenes */
+  }
+  
+  .image {
+    max-width: 30%; /* Establece el ancho máximo para las imágenes */
+    height: auto; /* Ajusta la altura automáticamente */
+  }
+  

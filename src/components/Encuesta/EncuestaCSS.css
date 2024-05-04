@@ -1,0 +1,59 @@
+/* Estilos específicos para el formulario de encuesta */
+.encuesta-container {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.encuesta-container .pregunta {
+  width: 100%;
+  max-width: 650px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #252d4a;
+  box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
+}
+
+.encuesta-container .pregunta-numero {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #fff;
+}
+
+.encuesta-container .pregunta-titulo {
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.encuesta-container .opciones {
+  display: flex;
+  flex-direction: column;
+}
+
+.encuesta-container button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 15px;
+  background-color: #252d4a;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.encuesta-container button:hover {
+  background-color: #234668;
+}
+
+.encuesta-container button[disabled] {
+  background-color: #555e7d;
+  cursor: not-allowed;
+}
+
+.encuesta-container button:focus {
+  outline: none;
+}

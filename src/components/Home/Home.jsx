@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles.css"; // Importa tu archivo CSS de estilos
+import "./HomeCSS.css"; // Importa tu archivo CSS de estilos
 
 const Home = () => {
   return (
@@ -17,7 +17,7 @@ const Home = () => {
           <img src="https://images.unsplash.com/photo-1516534775068-ba3e7458af70?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZXN0cmVzc3xlbnwwfHwwfHx8MA%3D%3D" alt="Imagen 3" className="image" />
         </div>
       </section>
-      <footer>
+      <footer className="footerHome">
         <p>Desarrollado por Isaac Romero - 2024</p>
       </footer>
     </div>

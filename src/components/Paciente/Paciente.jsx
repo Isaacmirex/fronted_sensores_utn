@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import withReactContent from 'sweetalert2';
 import { show_alerta } from './Functions';
-
+import "./PacienteCSS.css";
 const Paciente = () => {
   const url = 'https://web-production-8f98.up.railway.app/api/usuarios/';
   const [pacientes, setPacientes] = useState([]);
@@ -150,7 +150,7 @@ const Paciente = () => {
 
   return (
     <div>
-      <h1>Hola Mundo</h1>
+      <h1>Pacientes</h1>
       <div className='container-fluid'>
         <div className='row mt-3'>
           <div className='col-md-4 offset-md-4'>
@@ -284,6 +284,9 @@ const Paciente = () => {
           </div>
         </div>
       </div>
+      <footer>
+        <p>Desarrollado por Isaac Romero - 2024</p>
+      </footer>
     </div>
   );
 };
