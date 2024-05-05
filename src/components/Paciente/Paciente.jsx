@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import withReactContent from 'sweetalert2';
-import { show_alerta } from './Functions';
+import { show_alerta } from '../SignosVitales/Functions';
 import "./PacienteCSS.css";
 const Paciente = () => {
   const url = 'https://web-production-8f98.up.railway.app/api/usuarios/';

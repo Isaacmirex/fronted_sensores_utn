@@ -3,7 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import Paciente from './Paciente';
-import { show_alerta } from './Functions';
+import { show_alerta } from '../SignosVitales/Functions';
 import { Result } from 'postcss';
 // import { show_alerta } from './functions';
 const ShowPacientes = () => {
@@ -61,11 +61,11 @@ const ShowPacientes = () => {
 
     };
     const validar = () => {
-        var parametros;
-        var metodo;
-        if (edad.trim() == ''){
-            show_alerta('No se ingreso edad',warning);
-        } 
+        // var parametros;
+        // var metodo;
+        // if (edad.trim() == ''){
+        //     show_alerta('No se ingreso edad',warning);
+        // } 
         //Asi con todos
         if(operation == 1){
             parametros  = {edad: edad, peso: peso, altura: altura, genero:genero.trim(), hijos: hijos, vive_solo : vive_solo, facultad: facultad.trim(), estres: estres}
