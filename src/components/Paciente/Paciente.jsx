@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import withReactContent from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { show_alerta } from '../SignosVitales/Functions';
-import "./PacienteCSS.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import './PacienteCSS.css';
+
 const Paciente = () => {
   const url = 'https://web-production-8f98.up.railway.app/api/usuarios/';
   const [pacientes, setPacientes] = useState([]);
@@ -21,7 +23,7 @@ const Paciente = () => {
   const [usr_estres, setEstres] = useState('');
   const [modalTitle, setModalTitle] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [patientsPerPage] = useState(7); // Cambiado a 7
+  const [patientsPerPage] = useState(7);
 
   useEffect(() => {
     getPacientes();
@@ -53,35 +55,18 @@ const Paciente = () => {
     try {
       const respuesta = await axios.post(url, nuevoPaciente);
       setPacientes([...pacientes, respuesta.data]);
-      setId('');
-      setEdad('');
-      setPeso('');
-      setAltura('');
-      setGenero('');
-      setHijos('');
-      setViveSolo('');
-      setFacultad('');
-      setTrabaja('');
-      setEstres('');
-      Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: 'Paciente agregado correctamente'
-      });
+      clearInputs();
+      showSuccessAlert('Paciente agregado correctamente');
     } catch (error) {
       console.error('Error al guardar paciente:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Hubo un error al guardar el paciente'
-      });
+      showErrorAlert('Hubo un error al guardar el paciente');
     }
   };
 
   const deletePaciente = (id) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
-      title: "¿Seguro que quieres eliminar al paciente " + id + "?",
+      title: `¿Seguro que quieres eliminar al paciente ${id}?`,
       icon: 'question',
       text: 'No se podrá recuperar lo eliminado',
       showCancelButton: true,
@@ -89,25 +74,51 @@ const Paciente = () => {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        enviarSolicitud('DELETE', { id: id });
+        const deleteUrl = `${url}${id}/`;
+        enviarSolicitud('DELETE', deleteUrl);
       } else {
         show_alerta('El paciente NO fue eliminado', 'info');
       }
     });
   };
 
-  const enviarSolicitud = async (metodo, parametros) => {
+  const enviarSolicitud = async (metodo, url) => {
     try {
-      await axios({ method: metodo, url: url, data: parametros });
-      show_alerta('Paciente eliminado correctamente', 'success');
+      await axios({ method: metodo, url: url });
+      showSuccessAlert('Paciente eliminado correctamente');
       getPacientes();
     } catch (error) {
-      show_alerta('Error en la solicitud', 'error');
+      showErrorAlert('Error en la solicitud');
       console.log(error);
     }
   };
 
-  const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, facultad, trabaja, estres) => {
+  // Dentro de la función openModal
+
+const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, facultad, trabaja, estres) => {
+  clearInputs();
+  if (op === 1) {
+    setModalTitle('Registrar Paciente');
+  } else if (op === 2) {
+    setModalTitle('Editar Paciente');
+    setId(id ?? ''); // Aquí agregamos el operador de nulabilidad para manejar el caso de valores nulos o indefinidos
+    setEdad(edad ?? ''); // Lo mismo para las demás variables de estado
+    setPeso(peso ?? '');
+    setAltura(altura ?? '');
+    setGenero(genero ?? '');
+    setHijos(hijos ?? '');
+    setViveSolo(vive_solo ?? '');
+    setFacultad(facultad ?? '');
+    setTrabaja(trabaja ?? '');
+    setEstres(estres ?? '');
+  }
+  window.setTimeout(function () {
+    document.getElementById('usr_id').focus();
+  }, 500);
+};
+
+
+  const clearInputs = () => {
     setId('');
     setEdad('');
     setPeso('');
@@ -118,32 +129,28 @@ const Paciente = () => {
     setFacultad('');
     setTrabaja('');
     setEstres('');
-    if (op === 1) {
-      setModalTitle('Registrar Paciente');
-    } else if (op === 2) {
-      setModalTitle('Editar Paciente');
-      setId(id);
-      setEdad(edad);
-      setPeso(peso);
-      setAltura(altura);
-      setGenero(genero);
-      setHijos(hijos);
-      setViveSolo(vive_solo);
-      setFacultad(facultad);
-      setTrabaja(trabaja);
-      setEstres(estres);
-    }
-    window.setTimeout(function () {
-      document.getElementById('id').focus();
-    }, 500)
   };
 
-  // Get current patients
+  const showSuccessAlert = (message) => {
+    Swal.fire({
+      icon: 'success',
+      title: 'Éxito',
+      text: message
+    });
+  };
+
+  const showErrorAlert = (message) => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: message
+    });
+  };
+
   const indexOfLastPatient = currentPage * patientsPerPage;
   const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
   const currentPatients = pacientes.slice(indexOfFirstPatient, indexOfLastPatient);
 
-  // Change page
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -243,8 +250,8 @@ const Paciente = () => {
                   </tr>
                 </thead>
                 <tbody className='table-group-divider'>
-                  {currentPatients.map((paciente, id) => (
-                    <tr key={id}>
+                  {currentPatients.map((paciente, index) => (
+                    <tr key={index}>
                       <td>{paciente.usr_id}</td>
                       <td>{paciente.usr_edad}</td>
                       <td>{paciente.usr_peso}</td>
@@ -256,11 +263,11 @@ const Paciente = () => {
                       <td>{paciente.usr_trabaja}</td>
                       <td>{paciente.usr_estres}</td>
                       <td>
-                        <button onClick={() => openModal(2, paciente.id, paciente.edad, paciente.peso, paciente.altura, paciente.genero, paciente.hijos, paciente.vive_solo, paciente.facultad, paciente.trabaja, paciente.estres)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='modalPacientes'>
+                        <button onClick={() => openModal(2, paciente.usr_id, paciente.usr_edad, paciente.usr_peso, paciente.usr_altura, paciente.usr_genero, paciente.usr_hijos, paciente.usr_vive_solo, paciente.usr_facultad, paciente.usr_trabaja, paciente.usr_estres)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='modalPacientes'>
                           <i className='fa-solid fa-edit'></i>
                         </button>
-                        &nbsp;
-                        <button onClick={() => deletePaciente(paciente.id)} className='btn btn-danger'>
+
+                        <button onClick={() => deletePaciente(paciente.usr_id)} className='btn btn-danger'>
                           <i className='fa-solid fa-trash'></i>
                         </button>
                       </td>
@@ -269,7 +276,6 @@ const Paciente = () => {
                 </tbody>
               </table>
             </div>
-            {/* Pagination */}
             <nav>
               <ul className='pagination'>
                 {Array.from({ length: Math.ceil(pacientes.length / patientsPerPage) }, (_, i) => (
