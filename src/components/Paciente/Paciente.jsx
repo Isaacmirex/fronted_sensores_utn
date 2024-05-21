@@ -33,7 +33,8 @@ const Paciente = () => {
   const getPacientes = async () => {
     try {
       const respuesta = await axios.get(url);
-      setPacientes(respuesta.data);
+      const sortedPacientes = respuesta.data.sort((a, b) => a.usr_id - b.usr_id);
+      setPacientes(sortedPacientes);
     } catch (error) {
       console.error('Error al obtener pacientes:', error);
     }
@@ -41,57 +42,56 @@ const Paciente = () => {
 
   const handleGuardar = async () => {
     const nuevoPaciente = {
-        usr_id,
-        usr_edad,
-        usr_peso,
-        usr_altura,
-        usr_genero,
-        usr_hijos,
-        usr_vive_solo,
-        usr_facultad,
-        usr_trabaja,
-        usr_estres,
+      usr_id,
+      usr_edad,
+      usr_peso,
+      usr_altura,
+      usr_genero,
+      usr_hijos,
+      usr_vive_solo,
+      usr_facultad,
+      usr_trabaja,
+      usr_estres,
     };
     try {
-        if (modalTitle === 'Editar Paciente') {
-            const updateUrl = `${url}${usr_id}/`;
-            await axios.put(updateUrl, nuevoPaciente);
-            showSuccessAlert('Paciente actualizado correctamente');
-        } else {
-            const respuesta = await axios.post(url, nuevoPaciente);
-            setPacientes([...pacientes, respuesta.data]);
-            showSuccessAlert('Paciente agregado correctamente');
-        }
-        clearInputs();
-        closeModal(); // Cierra el modal después de guardar
-        getPacientes();
+      if (modalTitle === 'Editar Paciente') {
+        const updateUrl = `${url}${usr_id}/`;
+        await axios.put(updateUrl, nuevoPaciente);
+        showSuccessAlert('Paciente actualizado correctamente');
+      } else {
+        const respuesta = await axios.post(url, nuevoPaciente);
+        const sortedPacientes = [...pacientes, respuesta.data].sort((a, b) => a.usr_id - b.usr_id);
+        setPacientes(sortedPacientes);
+        showSuccessAlert('Paciente agregado correctamente');
+      }
+      clearInputs();
+      closeModal(); // Cierra el modal después de guardar
+      getPacientes();
     } catch (error) {
-        console.error('Error al guardar paciente:', error);
-        showErrorAlert('Hubo un error al guardar el paciente');
+      console.error('Error al guardar paciente:', error);
+      showErrorAlert('Hubo un error al guardar el paciente');
     }
-}
+  };
 
   const closeModal = () => {
     const modalElement = document.getElementById('modalPacientes');
     const modalInstance = bootstrap.Modal.getInstance(modalElement);
-    
+
     if (modalInstance) {
       modalInstance.hide(); // Oculta el modal utilizando la función de Bootstrap
     }
-    
-    // También puedes intentar eliminar el modal-backdrop después de un pequeño retraso
-    setTimeout(() => {
-      const backdropElement = document.querySelector('.modal-backdrop');
-      if (backdropElement) {
-        backdropElement.remove(); // Elimina el backdrop del DOM
-      }
-      
-      // Remueve las clases agregadas al body por Bootstrap
-      document.body.classList.remove('modal-open');
-      document.body.style.overflow = ''; // Restaura el scroll del body
-    }, 100); // Espera 100ms antes de intentar eliminar el backdrop
+
+    // Asegúrate de que los backdrop se eliminen correctamente
+    const backdropElements = document.querySelectorAll('.modal-backdrop');
+    backdropElements.forEach(backdrop => {
+      backdrop.remove();
+    });
+
+    // Remueve las clases agregadas al body por Bootstrap
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = ''; // Restaura el scroll del body
+    document.body.style.paddingRight = ''; // Restaura el padding del body si fue modificado
   };
-  
 
   const deletePaciente = (id) => {
     const MySwal = withReactContent(Swal);
@@ -163,6 +163,8 @@ const Paciente = () => {
       icon: 'success',
       title: 'Éxito',
       text: message
+    }).then(() => {
+      closeModal(); // Cierra el modal después de mostrar la alerta
     });
   };
 
@@ -207,43 +209,43 @@ const Paciente = () => {
               <form>
                 <div className='form-group'>
                   <label htmlFor='usr_id'>ID</label>
-                  <input id='usr_id' type='text' className='form-control' value={usr_id} onChange={e => setId(e.target.value)} placeholder='ID' />
+                  <input id='usr_id' type='text' className='form-control' value={usr_id} onChange={e => setId(e.target.value)} placeholder='ID (ingresar 0)' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_edad'>Edad</label>
-                  <input id='usr_edad' type='text' className='form-control' value={usr_edad} onChange={e => setEdad(e.target.value)} placeholder='Edad' />
+                  <input id='usr_edad' type='text' className='form-control' value={usr_edad} onChange={e => setEdad(e.target.value)} placeholder='Edad (años)' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_peso'>Peso</label>
-                  <input id='usr_peso' type='text' className='form-control' value={usr_peso} onChange={e => setPeso(e.target.value)} placeholder='Peso' />
+                  <input id='usr_peso' type='text' className='form-control' value={usr_peso} onChange={e => setPeso(e.target.value)} placeholder='Peso (kg)' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_altura'>Altura</label>
-                  <input id='usr_altura' type='text' className='form-control' value={usr_altura} onChange={e => setAltura(e.target.value)} placeholder='Altura' />
+                  <input id='usr_altura' type='text' className='form-control' value={usr_altura} onChange={e => setAltura(e.target.value)} placeholder='Altura (cm)' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_genero'>Género</label>
-                  <input id='usr_genero' type='text' className='form-control' value={usr_genero} onChange={e => setGenero(e.target.value)} placeholder='Género' />
+                  <input id='usr_genero' type='text' className='form-control' value={usr_genero} onChange={e => setGenero(e.target.value)} placeholder='Género (Si=1,No=0)' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_hijos'>Hijos</label>
-                  <input id='usr_hijos' type='text' className='form-control' value={usr_hijos} onChange={e => setHijos(e.target.value)} placeholder='Hijos' />
+                  <input id='usr_hijos' type='text' className='form-control' value={usr_hijos} onChange={e => setHijos(e.target.value)} placeholder='Hijos (Si=1,No=0)' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_vive_solo'>Vive Solo</label>
-                  <input id='usr_vive_solo' type='text' className='form-control' value={usr_vive_solo} onChange={e => setViveSolo(e.target.value)} placeholder='Vive Solo' />
+                  <input id='usr_vive_solo' type='text' className='form-control' value={usr_vive_solo} onChange={e => setViveSolo(e.target.value)} placeholder='Vive Solo (Si=1,No=0)' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_facultad'>Facultad</label>
-                  <input id='usr_facultad' type='text' className='form-control' value={usr_facultad} onChange={e => setFacultad(e.target.value)} placeholder='Facultad' />
+                  <input id='usr_facultad' type='text' className='form-control' value={usr_facultad} onChange={e => setFacultad(e.target.value)} placeholder='Facultad (FECYT,FACAE,FICA,FCCSS,FICAYA)' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_trabaja'>Trabaja</label>
-                  <input id='usr_trabaja' type='text' className='form-control' value={usr_trabaja} onChange={e => setTrabaja(e.target.value)} placeholder='Trabaja' />
+                  <input id='usr_trabaja' type='text' className='form-control' value={usr_trabaja} onChange={e => setTrabaja(e.target.value)} placeholder='Trabaja (Si=1, No=0 )' />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_estres'>Estrés</label>
-                  <input id='usr_estres' type='text' className='form-control' value={usr_estres} onChange={e => setEstres(e.target.value)} placeholder='Estrés' />
+                  <input id='usr_estres' type='text' className='form-control' value={usr_estres} onChange={e => setEstres(e.target.value)} placeholder='Estrés (Ingresar 0)' />
                 </div>
               </form>
             </div>
@@ -293,7 +295,6 @@ const Paciente = () => {
                         <button onClick={() => openModal(2, paciente.usr_id, paciente.usr_edad, paciente.usr_peso, paciente.usr_altura, paciente.usr_genero, paciente.usr_hijos, paciente.usr_vive_solo, paciente.usr_facultad, paciente.usr_trabaja, paciente.usr_estres)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='#modalPacientes'>
                           <i className='fa-solid fa-edit'></i>
                         </button>
-
                         <button onClick={() => deletePaciente(paciente.usr_id)} className='btn btn-danger'>
                           <i className='fa-solid fa-trash'></i>
                         </button>
