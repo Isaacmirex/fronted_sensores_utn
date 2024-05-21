@@ -5,6 +5,7 @@ import withReactContent from 'sweetalert2-react-content';
 import { show_alerta } from '../SignosVitales/Functions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import * as bootstrap from 'bootstrap';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './PacienteCSS.css';
 
@@ -40,28 +41,57 @@ const Paciente = () => {
 
   const handleGuardar = async () => {
     const nuevoPaciente = {
-      usr_id,
-      usr_edad,
-      usr_peso,
-      usr_altura,
-      usr_genero,
-      usr_hijos,
-      usr_vive_solo,
-      usr_facultad,
-      usr_trabaja,
-      usr_estres
+        usr_id,
+        usr_edad,
+        usr_peso,
+        usr_altura,
+        usr_genero,
+        usr_hijos,
+        usr_vive_solo,
+        usr_facultad,
+        usr_trabaja,
+        usr_estres,
     };
-
     try {
-      const respuesta = await axios.post(url, nuevoPaciente);
-      setPacientes([...pacientes, respuesta.data]);
-      clearInputs();
-      showSuccessAlert('Paciente agregado correctamente');
+        if (modalTitle === 'Editar Paciente') {
+            const updateUrl = `${url}${usr_id}/`;
+            await axios.put(updateUrl, nuevoPaciente);
+            showSuccessAlert('Paciente actualizado correctamente');
+        } else {
+            const respuesta = await axios.post(url, nuevoPaciente);
+            setPacientes([...pacientes, respuesta.data]);
+            showSuccessAlert('Paciente agregado correctamente');
+        }
+        clearInputs();
+        closeModal(); // Cierra el modal después de guardar
+        getPacientes();
     } catch (error) {
-      console.error('Error al guardar paciente:', error);
-      showErrorAlert('Hubo un error al guardar el paciente');
+        console.error('Error al guardar paciente:', error);
+        showErrorAlert('Hubo un error al guardar el paciente');
     }
+}
+
+  const closeModal = () => {
+    const modalElement = document.getElementById('modalPacientes');
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    
+    if (modalInstance) {
+      modalInstance.hide(); // Oculta el modal utilizando la función de Bootstrap
+    }
+    
+    // También puedes intentar eliminar el modal-backdrop después de un pequeño retraso
+    setTimeout(() => {
+      const backdropElement = document.querySelector('.modal-backdrop');
+      if (backdropElement) {
+        backdropElement.remove(); // Elimina el backdrop del DOM
+      }
+      
+      // Remueve las clases agregadas al body por Bootstrap
+      document.body.classList.remove('modal-open');
+      document.body.style.overflow = ''; // Restaura el scroll del body
+    }, 100); // Espera 100ms antes de intentar eliminar el backdrop
   };
+  
 
   const deletePaciente = (id) => {
     const MySwal = withReactContent(Swal);
@@ -93,30 +123,27 @@ const Paciente = () => {
     }
   };
 
-  // Dentro de la función openModal
-
-const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, facultad, trabaja, estres) => {
-  clearInputs();
-  if (op === 1) {
-    setModalTitle('Registrar Paciente');
-  } else if (op === 2) {
-    setModalTitle('Editar Paciente');
-    setId(id ?? ''); // Aquí agregamos el operador de nulabilidad para manejar el caso de valores nulos o indefinidos
-    setEdad(edad ?? ''); // Lo mismo para las demás variables de estado
-    setPeso(peso ?? '');
-    setAltura(altura ?? '');
-    setGenero(genero ?? '');
-    setHijos(hijos ?? '');
-    setViveSolo(vive_solo ?? '');
-    setFacultad(facultad ?? '');
-    setTrabaja(trabaja ?? '');
-    setEstres(estres ?? '');
-  }
-  window.setTimeout(function () {
-    document.getElementById('usr_id').focus();
-  }, 500);
-};
-
+  const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, facultad, trabaja, estres) => {
+    clearInputs();
+    if (op === 1) {
+      setModalTitle('Registrar Paciente');
+    } else if (op === 2) {
+      setModalTitle('Editar Paciente');
+      setId(id ?? '');
+      setEdad(edad ?? '');
+      setPeso(peso ?? '');
+      setAltura(altura ?? '');
+      setGenero(genero ?? '');
+      setHijos(hijos ?? '');
+      setViveSolo(vive_solo ?? '');
+      setFacultad(facultad ?? '');
+      setTrabaja(trabaja ?? '');
+      setEstres(estres ?? '');
+    }
+    window.setTimeout(function () {
+      document.getElementById('usr_id').focus();
+    }, 500);
+  };
 
   const clearInputs = () => {
     setId('');
@@ -162,7 +189,7 @@ const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, faculta
         <div className='row mt-3'>
           <div className='col-md-4 offset-md-4'>
             <div className='d-grid mx-auto'>
-              <button className='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalPacientes'>
+              <button className='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalPacientes' onClick={() => openModal(1)}>
                 <i className='fas fa-plus-circle'></i> Añadir
               </button>
             </div>
@@ -174,7 +201,7 @@ const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, faculta
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title'>{modalTitle}</h5>
-              <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+              <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' onClick={closeModal}></button>
             </div>
             <div className='modal-body'>
               <form>
@@ -221,7 +248,7 @@ const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, faculta
               </form>
             </div>
             <div className='modal-footer'>
-              <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
+              <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' onClick={closeModal}>Cerrar</button>
               <button type='button' className='btn btn-primary' onClick={handleGuardar}>
                 <i className='fas fa-save'></i> Guardar
               </button>
@@ -231,7 +258,7 @@ const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, faculta
       </div>
       <div className='container-fluid'>
         <div className='row mt-3'>
-          <div className='col-12 col-lg-8 offset-0 offset-lg-12'>
+          <div className='col-12 col-lg-8 offset-0 offset-lg-2'>
             <div className='table-responsive'>
               <table className='table table-bordered'>
                 <thead>
@@ -263,7 +290,7 @@ const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, faculta
                       <td>{paciente.usr_trabaja}</td>
                       <td>{paciente.usr_estres}</td>
                       <td>
-                        <button onClick={() => openModal(2, paciente.usr_id, paciente.usr_edad, paciente.usr_peso, paciente.usr_altura, paciente.usr_genero, paciente.usr_hijos, paciente.usr_vive_solo, paciente.usr_facultad, paciente.usr_trabaja, paciente.usr_estres)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='modalPacientes'>
+                        <button onClick={() => openModal(2, paciente.usr_id, paciente.usr_edad, paciente.usr_peso, paciente.usr_altura, paciente.usr_genero, paciente.usr_hijos, paciente.usr_vive_solo, paciente.usr_facultad, paciente.usr_trabaja, paciente.usr_estres)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='#modalPacientes'>
                           <i className='fa-solid fa-edit'></i>
                         </button>
 
