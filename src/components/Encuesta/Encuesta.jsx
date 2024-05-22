@@ -101,7 +101,10 @@ const Encuesta = () => {
           Siguiente
         </button>
         {preguntaActual === preguntas.length - 1 && (
-          <button className="navegacion-button" onClick={enviarEncuesta}>
+          <button className="navegacion-button" onClick={() => {
+            enviarEncuesta();
+            window.location.reload();
+          }}>
             Enviar
           </button>
         )}
@@ -111,9 +114,6 @@ const Encuesta = () => {
           <p>Resultado de la encuesta: {resultadoEncuesta}</p>
         )}
       </div>
-      <footer>
-        <p>Desarrollado por Isaac Romero - 2024</p>
-      </footer>
     </div>
   );
 };
