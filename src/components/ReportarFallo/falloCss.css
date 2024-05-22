@@ -1,0 +1,92 @@
+/* Estilo para el contenedor principal */
+#fallo-container {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Estilo para la tarjeta */
+#fallo-card {
+  background-color: #343a40;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 800px; /* Ancho máximo aumentado */
+  width: 100%; /* Ocupa el 100% del contenedor padre */
+  padding: 20px;
+  color: white;
+}
+
+/* Estilo para el título de la tarjeta */
+#fallo-card-title {
+  font-size: 1.5rem; /* Tamaño del texto */
+  color: #ffc107;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Estilo para los labels del formulario */
+#fallo-card-form label {
+  font-weight: bold;
+  color: #ffc107;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Estilo para los inputs del formulario */
+#fallo-card-form .form-control {
+  background-color: #495057;
+  color: #fff;
+  border: 1px solid #ffc107;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Estilo específico para el textarea */
+#fallo-card-form .form-control.textarea {
+  height: 200px; /* Altura aumentada para más espacio de texto */
+}
+
+/* Estilo para los inputs en foco */
+#fallo-card-form .form-control:focus {
+  background-color: #495057;
+  color: #fff;
+  border-color: #ffc107;
+  box-shadow: none;
+  outline: none;
+}
+
+/* Estilo para el botón */
+#fallo-card-form .btn-warning {
+  background-color: #ffc107;
+  border: none;
+  color: #000;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center; /* Centrar el texto horizontalmente */
+  align-items: center; /* Centrar el texto verticalmente */
+}
+
+/* Estilo para el botón en hover */
+#fallo-card-form .btn-warning:hover {
+  background-color: #e0a800;
+  color: #000;
+}
+
+/* Alinear ícono y texto del título */
+#fallo-card-title i {
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+/* Asegurar que los elementos estén alineados correctamente */
+.text-center {
+  text-align: center;
+}

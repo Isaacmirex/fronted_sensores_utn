@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; // Importar estilos de Bootstrap
 import Swal from 'sweetalert2'; // Importar SweetAlert2
+import './falloCss.css'; // Importar tu archivo CSS personalizado
 
 const ReportarFallo = () => {
   const [titulo, setTitulo] = useState("");
@@ -26,45 +26,42 @@ const ReportarFallo = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card bg-dark text-white" style={{ backgroundColor: "#15297c" }}>
-            <div className="card-body">
-              <h1 className="card-title text-center">
-                <i className="bi bi-exclamation-triangle-fill text-warning"></i>{" "}
-                Reporte de Error
-              </h1>
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="titulo">Título:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="titulo"
-                    value={titulo}
-                    onChange={(e) => setTitulo(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="descripcion">Descripción:</label>
-                  <textarea
-                    className="form-control"
-                    id="descripcion"
-                    value={descripcion}
-                    onChange={(e) => setDescripcion(e.target.value)}
-                    required
-                  ></textarea>
-                </div>
-                <div className="text-center">
-                  <button type="submit" className="btn btn-warning">
-                    <i className="bi bi-arrow-right"></i> Enviar Reporte
-                  </button>
-                </div>
-              </form>
+    <div id="fallo-container">
+      <div id="fallo-card">
+        <div className="card-body">
+          <h1 id="fallo-card-title">
+            <i className="bi bi-exclamation-triangle-fill text-warning"></i>{" "}
+            Reporte de Error
+          </h1>
+          <form id="fallo-card-form" onSubmit={handleSubmit}>
+            <div className="form-group mb-3">
+              <label htmlFor="titulo">Título:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="titulo"
+                value={titulo}
+                onChange={(e) => setTitulo(e.target.value)}
+                required
+              />
             </div>
-          </div>
+            <div className="form-group mb-3">
+              <label htmlFor="descripcion">Descripción:</label>
+              <textarea
+                className="form-control textarea"
+                id="descripcion"
+                rows="4"
+                value={descripcion}
+                onChange={(e) => setDescripcion(e.target.value)}
+                required
+              ></textarea>
+            </div>
+            <div className="text-center">
+              <button type="submit" className="btn-warning">
+                <i className="bi bi-arrow-right"></i> Enviar Reporte
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
