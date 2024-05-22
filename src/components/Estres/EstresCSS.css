@@ -1,0 +1,83 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #00ced1;
+}
+
+.charts-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 800px;
+}
+
+.chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.circle-chart {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  background: conic-gradient(var(--color) calc(var(--value) * 1%), transparent 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.circle-chart::before {
+  content: '';
+  position: absolute;
+  width: 6rem;
+  height: 6rem;
+  background: #1a1a1a; /* Fondo interno del círculo */
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.circle-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.circle-value {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.circle-label {
+  color: white;
+  font-size: 1rem;
+}
+
+.circle-chart.green {
+  --color: #2f922f;
+}
+
+.circle-chart.yellow {
+  --color: #f1c40f;
+}
+
+.circle-chart.red {
+  --color: #e74c3c;
+}

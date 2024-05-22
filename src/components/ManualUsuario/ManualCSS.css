@@ -1,0 +1,17 @@
+.manual-section {
+  padding: 20px;
+}
+
+.manual-section .btn {
+  margin-bottom: 10px;
+}
+
+.document-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  margin: 0 5px;
+}

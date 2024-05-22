@@ -111,6 +111,9 @@ const Encuesta = () => {
           <p>Resultado de la encuesta: {resultadoEncuesta}</p>
         )}
       </div>
+      <footer>
+        <p>Desarrollado por Isaac Romero - 2024</p>
+      </footer>
     </div>
   );
 };
