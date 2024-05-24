@@ -102,7 +102,7 @@ const SignosVitales = () => {
         const deleteUrl = `${url}${id}/`; // Asegúrate de que la URL termine con una barra
         enviarSolicitud('DELETE', deleteUrl);
       } else {
-        show_alerta('El sensor NO fue eliminado', 'info');
+        //show_alerta('El sensor NO fue eliminado', 'info');
       }
     });
   };

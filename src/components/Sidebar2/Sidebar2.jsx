@@ -5,16 +5,16 @@ import "./styles.css";
 
 const navItems = [
   { name: "home", title: "inicio", path: "/Home" },
-  { name: "person_add", title: "Paciente", path: "/Paciente" },
+  { name: "person_add", title: "Estudiante", path: "/Paciente" },
   { name: "Inventory", title: "Encuesta EPP", path: "/Encuesta" },
   { name: "cardiology", title: "Signos Vitales", path: "/SignosVitales" },
   { name: "Person_Celebrate", title: "Estrés", path: "/Estres" },
-  { name: "Data_loss_Prevention", title: "Resultados por paciente", path: "/ResultadosPaciente" },
+  // { name: "Data_loss_Prevention", title: "Resultados por paciente", path: "/ResultadosPaciente" },
   { name: "Data_Usage", title: "Resultados globales", path: "/ResultadosGlobales" },
   { name: "book_4", title: "Manual de usuario", path: "/ManualUsuario" },
   { name: "Warning", title: "Reportar un fallo", path: "/ReportarFallo" },
   { name: "Hail", title: "Autor Isaac Romero", path: "/Autor" },
-  { name: "logout", title: "Cerrar sesión", path: "/Logout" }
+  // { name: "logout", title: "Cerrar sesión", path: "/Logout" }
 ];
 
 export const Sidebar2 = () => {

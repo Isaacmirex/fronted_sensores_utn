@@ -5,6 +5,7 @@ import './EstresCSS.css'; // Importa el archivo CSS
 const Estres = () => {
   const [estresUsuario, setEstresUsuario] = useState(0);
   const [ecTotal, setEcTotal] = useState(0);
+  const [estresTotal, setEstresTotal] = useState(0);
 
   useEffect(() => {
     const fetchEstresUsuario = async () => {
@@ -43,6 +44,11 @@ const Estres = () => {
 
   const stressPercentage = calculatePercentage(ecTotal, 56);
 
+  useEffect(() => {
+    const totalEstres = (estresUsuario + stressPercentage) / 2;
+    setEstresTotal(totalEstres);
+  }, [estresUsuario, stressPercentage]);
+
   return (
     <div className="container">
       <h1 className="title">Nivel de estrés estudiante</h1>
@@ -61,6 +67,15 @@ const Estres = () => {
           <div className={`circle-chart ${getColor(stressPercentage)}`} style={{ '--value': stressPercentage }}>
             <div className="circle-content">
               <span className="circle-value">{stressPercentage.toFixed(2)}%</span>
+              <span className="circle-label">Estrés</span>
+            </div>
+          </div>
+        </div>
+        <div className="chart-wrapper">
+          <h2 className="chart-title">Estrés Total</h2>
+          <div className={`circle-chart ${getColor(estresTotal)}`} style={{ '--value': estresTotal }}>
+            <div className="circle-content">
+              <span className="circle-value">{estresTotal.toFixed(2)}%</span>
               <span className="circle-label">Estrés</span>
             </div>
           </div>

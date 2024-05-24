@@ -36,7 +36,7 @@ const Paciente = () => {
       const sortedPacientes = respuesta.data.sort((a, b) => a.usr_id - b.usr_id);
       setPacientes(sortedPacientes);
     } catch (error) {
-      console.error('Error al obtener pacientes:', error);
+      console.error('Error al obtener estrudiante:', error);
     }
   };
 
@@ -54,22 +54,22 @@ const Paciente = () => {
       usr_estres,
     };
     try {
-      if (modalTitle === 'Editar Paciente') {
+      if (modalTitle === 'Editar Estudiante') {
         const updateUrl = `${url}${usr_id}/`;
         await axios.put(updateUrl, nuevoPaciente);
-        showSuccessAlert('Paciente actualizado correctamente');
+        showSuccessAlert('Estudiante actualizado correctamente');
       } else {
         const respuesta = await axios.post(url, nuevoPaciente);
         const sortedPacientes = [...pacientes, respuesta.data].sort((a, b) => a.usr_id - b.usr_id);
         setPacientes(sortedPacientes);
-        showSuccessAlert('Paciente agregado correctamente');
+        showSuccessAlert('Estudiante agregado correctamente');
       }
       clearInputs();
       closeModal(); // Cierra el modal después de guardar
       getPacientes();
     } catch (error) {
-      console.error('Error al guardar paciente:', error);
-      showErrorAlert('Hubo un error al guardar el paciente');
+      console.error('Error al guardar Estudiante:', error);
+      showErrorAlert('Hubo un error al guardar el Estrudiante');
     }
   };
 
@@ -96,7 +96,7 @@ const Paciente = () => {
   const deletePaciente = (id) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
-      title: `¿Seguro que quieres eliminar al paciente ${id}?`,
+      title: `¿Seguro que quieres eliminar al estudiante ${id}?`,
       icon: 'question',
       text: 'No se podrá recuperar lo eliminado',
       showCancelButton: true,
@@ -107,7 +107,7 @@ const Paciente = () => {
         const deleteUrl = `${url}${id}/`;
         enviarSolicitud('DELETE', deleteUrl);
       } else {
-        show_alerta('El paciente NO fue eliminado', 'info');
+        show_alerta('El estudiante NO fue eliminado', 'info');
       }
     });
   };
@@ -115,7 +115,7 @@ const Paciente = () => {
   const enviarSolicitud = async (metodo, url) => {
     try {
       await axios({ method: metodo, url: url });
-      showSuccessAlert('Paciente eliminado correctamente');
+      showSuccessAlert('Estudiante eliminado correctamente');
       getPacientes();
     } catch (error) {
       showErrorAlert('Error en la solicitud');
@@ -126,9 +126,10 @@ const Paciente = () => {
   const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, facultad, trabaja, estres) => {
     clearInputs();
     if (op === 1) {
-      setModalTitle('Registrar Paciente');
+      setModalTitle('Registrar Estudiante');
+      setId(0); // Para registrar, el ID es 0
     } else if (op === 2) {
-      setModalTitle('Editar Paciente');
+      setModalTitle('Editar Estudiante');
       setId(id ?? '');
       setEdad(edad ?? '');
       setPeso(peso ?? '');
@@ -186,7 +187,7 @@ const Paciente = () => {
 
   return (
     <div>
-      <h1>Pacientes</h1>
+      <h1>Estudiantes</h1>
       <div className='container-fluid'>
         <div className='row mt-3'>
           <div className='col-md-4 offset-md-4'>
@@ -202,14 +203,14 @@ const Paciente = () => {
         <div className='modal-dialog'>
           <div className='modal-content'>
             <div className='modal-header'>
-              <h5 className='modal-title'>{modalTitle}</h5>
+              <h5 className='modal-title modal-title text-black'>{modalTitle}</h5>
               <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' onClick={closeModal}></button>
             </div>
             <div className='modal-body'>
               <form>
                 <div className='form-group'>
                   <label htmlFor='usr_id'>ID</label>
-                  <input id='usr_id' type='text' className='form-control' value={usr_id} onChange={e => setId(e.target.value)} placeholder='ID (ingresar 0)' />
+                  <input id='usr_id' type='text' className='form-control' value={usr_id} onChange={e => setId(e.target.value)} placeholder='ID (ingresar 0)' disabled />
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_edad'>Edad</label>
@@ -225,27 +226,51 @@ const Paciente = () => {
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_genero'>Género</label>
-                  <input id='usr_genero' type='text' className='form-control' value={usr_genero} onChange={e => setGenero(e.target.value)} placeholder='Género (Si=1,No=0)' />
+                  <select id='usr_genero' className='form-control' value={usr_genero} onChange={e => setGenero(e.target.value)}>
+                    <option value=''>Seleccione Genero</option>
+                    <option value='F'>Femenino</option>
+                    <option value='M'>Masculino</option>
+                    <option value='N'>Neutro</option>
+                  </select>
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_hijos'>Hijos</label>
-                  <input id='usr_hijos' type='text' className='form-control' value={usr_hijos} onChange={e => setHijos(e.target.value)} placeholder='Hijos (Si=1,No=0)' />
+                  <select id='usr_hijos' className='form-control' value={usr_hijos} onChange={e => setHijos(e.target.value)}>
+                    <option value=''>Seleccione si tiene hijos</option>
+                    <option value='1'>Sí</option>
+                    <option value='0'>No</option>
+                  </select>
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_vive_solo'>Vive Solo</label>
-                  <input id='usr_vive_solo' type='text' className='form-control' value={usr_vive_solo} onChange={e => setViveSolo(e.target.value)} placeholder='Vive Solo (Si=1,No=0)' />
+                  <select id='usr_vive_solo' className='form-control' value={usr_vive_solo} onChange={e => setViveSolo(e.target.value)}>
+                    <option value=''>Seleccione si vive solo</option>
+                    <option value='1'>Sí</option>
+                    <option value='0'>No</option>
+                  </select>
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_facultad'>Facultad</label>
-                  <input id='usr_facultad' type='text' className='form-control' value={usr_facultad} onChange={e => setFacultad(e.target.value)} placeholder='Facultad (FECYT,FACAE,FICA,FCCSS,FICAYA)' />
+                  <select id='usr_facultad' className='form-control' value={usr_facultad} onChange={e => setFacultad(e.target.value)}>
+                    <option value=''>Seleccione facultad</option>
+                    <option value='FECYT'>FECYT</option>
+                    <option value='FACAE'>FACAE</option>
+                    <option value='FICA'>FICA</option>
+                    <option value='FCCSS'>FCCSS</option>
+                    <option value='FICAYA'>FICAYA</option>
+                  </select>
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_trabaja'>Trabaja</label>
-                  <input id='usr_trabaja' type='text' className='form-control' value={usr_trabaja} onChange={e => setTrabaja(e.target.value)} placeholder='Trabaja (Si=1, No=0 )' />
+                  <select id='usr_trabaja' className='form-control' value={usr_trabaja} onChange={e => setTrabaja(e.target.value)}>
+                    <option value=''>Seleccione si trabaja</option>
+                    <option value='1'>Sí</option>
+                    <option value='0'>No</option>
+                  </select>
                 </div>
                 <div className='form-group'>
                   <label htmlFor='usr_estres'>Estrés</label>
-                  <input id='usr_estres' type='text' className='form-control' value={usr_estres} onChange={e => setEstres(e.target.value)} placeholder='Estrés (Ingresar 0)' />
+                  <input id='usr_estres' type='text' className='form-control' value={usr_estres} onChange={e => setEstres(e.target.value)} placeholder='Estrés (Ingrese cualquier valor)' />
                 </div>
               </form>
             </div>
