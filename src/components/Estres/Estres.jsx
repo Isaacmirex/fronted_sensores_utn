@@ -17,7 +17,6 @@ const Estres = () => {
         console.error("Error fetching user stress data:", error);
       }
     };
-
     const fetchEncuesta = async () => {
       try {
         const { data } = await axios.get('https://web-production-8f98.up.railway.app/api/encuestas/');
