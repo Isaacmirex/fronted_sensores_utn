@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Preloader from '../Preloader/Preloader'; // Asegúrate de ajustar la ruta según tu estructura de archivos
 import './EstresCSS.css'; // Importa el archivo CSS
 
 const Estres = () => {
   const [estresUsuario, setEstresUsuario] = useState(0);
   const [ecTotal, setEcTotal] = useState(0);
   const [estresTotal, setEstresTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchEstresUsuario = async () => {
@@ -27,8 +29,13 @@ const Estres = () => {
       }
     };
 
-    fetchEstresUsuario();
-    fetchEncuesta();
+    const fetchData = async () => {
+      await fetchEstresUsuario();
+      await fetchEncuesta();
+      setIsLoading(false); // Datos cargados, desactivar preloader
+    };
+
+    fetchData();
   }, []);
 
   const getColor = (nivel) => {
@@ -50,39 +57,44 @@ const Estres = () => {
 
   return (
     <div className="container">
-      <h1 className="title">Nivel de estrés estudiante</h1>
-      <div className="charts-container">
-        <div className="chart-wrapper">
-          <h2 className="chart-title">Sensores biométricos</h2>
-          <div className={`circle-chart ${getColor(estresUsuario)}`} style={{ '--value': estresUsuario }}>
-            <div className="circle-content">
-              <span className="circle-value">{estresUsuario}%</span>
-              <span className="circle-label">Estrés</span>
+      <Preloader load={isLoading} />
+      {!isLoading && (
+        <>
+          <h1 className="title">Nivel de estrés estudiante</h1>
+          <div className="charts-container">
+            <div className="chart-wrapper">
+              <h2 className="chart-title">Sensores biométricos</h2>
+              <div className={`circle-chart ${getColor(estresUsuario)}`} style={{ '--value': estresUsuario }}>
+                <div className="circle-content">
+                  <span className="circle-value">{estresUsuario}%</span>
+                  <span className="circle-label">Estrés</span>
+                </div>
+              </div>
+            </div>
+            <div className="chart-wrapper">
+              <h2 className="chart-title">Encuesta de estrés percibido</h2>
+              <div className={`circle-chart ${getColor(stressPercentage)}`} style={{ '--value': stressPercentage }}>
+                <div className="circle-content">
+                  <span className="circle-value">{stressPercentage.toFixed(2)}%</span>
+                  <span className="circle-label">Estrés</span>
+                </div>
+              </div>
+            </div>
+            <div className="chart-wrapper">
+              <h2 className="chart-title">Estrés Total</h2>
+              <div className={`circle-chart ${getColor(estresTotal)}`} style={{ '--value': estresTotal }}>
+                <div className="circle-content">
+                  <span className="circle-value">{estresTotal.toFixed(2)}%</span>
+                  <span className="circle-label">Estrés</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="chart-wrapper">
-          <h2 className="chart-title">Encuesta de estrés percibido</h2>
-          <div className={`circle-chart ${getColor(stressPercentage)}`} style={{ '--value': stressPercentage }}>
-            <div className="circle-content">
-              <span className="circle-value">{stressPercentage.toFixed(2)}%</span>
-              <span className="circle-label">Estrés</span>
-            </div>
-          </div>
-        </div>
-        <div className="chart-wrapper">
-          <h2 className="chart-title">Estrés Total</h2>
-          <div className={`circle-chart ${getColor(estresTotal)}`} style={{ '--value': estresTotal }}>
-            <div className="circle-content">
-              <span className="circle-value">{estresTotal.toFixed(2)}%</span>
-              <span className="circle-label">Estrés</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <footer>
-        <p>Desarrollado por Isaac Romero - 2024</p>
-      </footer>
+          <footer>
+            <p>Desarrollado por Isaac Romero - 2024</p>
+          </footer>
+        </>
+      )}
     </div>
   );
 };

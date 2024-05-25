@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import Preloader from '../Preloader/Preloader'; // Asegúrate de ajustar la ruta según tu estructura de archivos
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import * as bootstrap from 'bootstrap';
@@ -20,6 +21,7 @@ const SignosVitales = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sensorsPerPage] = useState(7);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     cargarSensores();
@@ -30,8 +32,10 @@ const SignosVitales = () => {
       const response = await axios.get(url);
       const sortedSensores = response.data.sort((a, b) => a.sen_id - b.sen_id);
       setSensores(sortedSensores);
+      setIsLoading(false); // Datos cargados, desactivar preloader
     } catch (error) {
       console.error('Error al cargar los sensores:', error);
+      setIsLoading(false); // En caso de error, desactivar preloader
     }
   };
 
@@ -173,117 +177,122 @@ const SignosVitales = () => {
 
   return (
     <div>
-      <h1>Signos Vitales</h1>
-      <div className='container-fluid'>
-        <div className='row mt-3'>
-          <div className='col-md-4 offset-md-4'>
-            <div className='d-grid mx-auto'>
-              <button className='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalSensores' onClick={() => openModal(1)}>
-                <i className='fas fa-plus-circle'></i> Añadir
-              </button>
+      <Preloader load={isLoading} />
+      {!isLoading && (
+        <>
+          <h1>Signos Vitales</h1>
+          <div className='container-fluid'>
+            <div className='row mt-3'>
+              <div className='col-md-4 offset-md-4'>
+                <div className='d-grid mx-auto'>
+                  <button className='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalSensores' onClick={() => openModal(1)}>
+                    <i className='fas fa-plus-circle'></i> Añadir
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className='modal fade' id='modalSensores'>
-        <div className='modal-dialog'>
-          <div className='modal-content'>
-            <div className='modal-header'>
-              <h5 className='modal-title'>{modalTitle}</h5>
-              <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' onClick={closeModal}></button>
-            </div>
-            <div className='modal-body'>
-              <form>
-                <div className='form-group'>
-                  <label htmlFor='sen_id'>ID</label>
-                  <input id='sen_id' type='text' className='form-control' value={sen_id} onChange={e => setSen_id(e.target.value)} placeholder='ID' />
+          <div className='modal fade' id='modalSensores'>
+            <div className='modal-dialog'>
+              <div className='modal-content'>
+                <div className='modal-header'>
+                  <h5 className='modal-title'>{modalTitle}</h5>
+                  <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' onClick={closeModal}></button>
                 </div>
-                <div className='form-group'>
-                  <label htmlFor='sen_emg'>EMG</label>
-                  <input id='sen_emg' type='text' className='form-control' value={sen_emg} onChange={e => setSenEmg(e.target.value)} placeholder='EMG' />
+                <div className='modal-body'>
+                  <form>
+                    <div className='form-group'>
+                      <label htmlFor='sen_id'>ID</label>
+                      <input id='sen_id' type='text' className='form-control' value={sen_id} onChange={e => setSen_id(e.target.value)} placeholder='ID' />
+                    </div>
+                    <div className='form-group'>
+                      <label htmlFor='sen_emg'>EMG</label>
+                      <input id='sen_emg' type='text' className='form-control' value={sen_emg} onChange={e => setSenEmg(e.target.value)} placeholder='EMG' />
+                    </div>
+                    <div className='form-group'>
+                      <label htmlFor='sen_temperatura'>Temperatura</label>
+                      <input id='sen_temperatura' type='text' className='form-control' value={sen_temperatura} onChange={e => setSenTemperatura(e.target.value)} placeholder='Temperatura' />
+                    </div>
+                    <div className='form-group'>
+                      <label htmlFor='sen_freq_respiratoria'>Frecuencia Respiratoria</label>
+                      <input id='sen_freq_respiratoria' type='text' className='form-control' value={sen_freq_respiratoria} onChange={e => setSenFreqRespiratoria(e.target.value)} placeholder='Frecuencia Respiratoria' />
+                    </div>
+                    <div className='form-group'>
+                      <label htmlFor='sen_freq_cardiaca'>Frecuencia Cardíaca</label>
+                      <input id='sen_freq_cardiaca' type='text' className='form-control' value={sen_freq_cardiaca} onChange={e => setSenFreqCardiaca(e.target.value)} placeholder='Frecuencia Cardíaca' />
+                    </div>
+                    <div className='form-group'>
+                      <label htmlFor='usr'>Usuario</label>
+                      <input id='usr' type='text' className='form-control' value={usr} onChange={e => setUsr(e.target.value)} placeholder='Usuario' />
+                    </div>
+                  </form>
                 </div>
-                <div className='form-group'>
-                  <label htmlFor='sen_temperatura'>Temperatura</label>
-                  <input id='sen_temperatura' type='text' className='form-control' value={sen_temperatura} onChange={e => setSenTemperatura(e.target.value)} placeholder='Temperatura' />
+                <div className='modal-footer'>
+                  <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' onClick={closeModal}>Cerrar</button>
+                  <button type='button' className='btn btn-primary' onClick={handleGuardar}>
+                    <i className='fas fa-save'></i> Guardar
+                  </button>
                 </div>
-                <div className='form-group'>
-                  <label htmlFor='sen_freq_respiratoria'>Frecuencia Respiratoria</label>
-                  <input id='sen_freq_respiratoria' type='text' className='form-control' value={sen_freq_respiratoria} onChange={e => setSenFreqRespiratoria(e.target.value)} placeholder='Frecuencia Respiratoria' />
-                </div>
-                <div className='form-group'>
-                  <label htmlFor='sen_freq_cardiaca'>Frecuencia Cardíaca</label>
-                  <input id='sen_freq_cardiaca' type='text' className='form-control' value={sen_freq_cardiaca} onChange={e => setSenFreqCardiaca(e.target.value)} placeholder='Frecuencia Cardíaca' />
-                </div>
-                <div className='form-group'>
-                  <label htmlFor='usr'>Usuario</label>
-                  <input id='usr' type='text' className='form-control' value={usr} onChange={e => setUsr(e.target.value)} placeholder='Usuario' />
-                </div>
-              </form>
-            </div>
-            <div className='modal-footer'>
-              <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' onClick={closeModal}>Cerrar</button>
-              <button type='button' className='btn btn-primary' onClick={handleGuardar}>
-                <i className='fas fa-save'></i> Guardar
-              </button>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className='container-fluid'>
-        <div className='row mt-3'>
-          <div className='col-12 col-lg-8 offset-0 offset-lg-2'>
-            <div className='table-responsive'>
-              <table className='table table-bordered'>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>EMG</th>
-                    <th>Temperatura</th>
-                    <th>Frecuencia Respiratoria</th>
-                    <th>Frecuencia Cardíaca</th>
-                    <th>Usuario</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody className='table-group-divider'>
-                  {currentSensors.map((sensor, index) => (
-                    <tr key={index}>
-                      <td>{sensor.sen_id}</td>
-                      <td>{sensor.sen_emg}</td>
-                      <td>{sensor.sen_temperatura}</td>
-                      <td>{sensor.sen_freq_respiratoria}</td>
-                      <td>{sensor.sen_freq_cardiaca}</td>
-                      <td>{sensor.usr}</td>
-                      <td>
-                        <button onClick={() => openModal(2, sensor.sen_id, sensor.sen_emg, sensor.sen_temperatura, sensor.sen_freq_respiratoria, sensor.sen_freq_cardiaca, sensor.usr)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='#modalSensores'>
-                          <i className='fa-solid fa-edit'></i>
+          <div className='container-fluid'>
+            <div className='row mt-3'>
+              <div className='col-12 col-lg-8 offset-0 offset-lg-2'>
+                <div className='table-responsive'>
+                  <table className='table table-bordered'>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>EMG</th>
+                        <th>Temperatura</th>
+                        <th>Frecuencia Respiratoria</th>
+                        <th>Frecuencia Cardíaca</th>
+                        <th>Usuario</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody className='table-group-divider'>
+                      {currentSensors.map((sensor, index) => (
+                        <tr key={index}>
+                          <td>{sensor.sen_id}</td>
+                          <td>{sensor.sen_emg}</td>
+                          <td>{sensor.sen_temperatura}</td>
+                          <td>{sensor.sen_freq_respiratoria}</td>
+                          <td>{sensor.sen_freq_cardiaca}</td>
+                          <td>{sensor.usr}</td>
+                          <td>
+                            <button onClick={() => openModal(2, sensor.sen_id, sensor.sen_emg, sensor.sen_temperatura, sensor.sen_freq_respiratoria, sensor.sen_freq_cardiaca, sensor.usr)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='#modalSensores'>
+                              <i className='fa-solid fa-edit'></i>
+                            </button>
+                            <button onClick={() => deleteSensor(sensor.sen_id)} className='btn btn-danger'>
+                              <i className='fa-solid fa-trash'></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <nav>
+                  <ul className='pagination'>
+                    {Array.from({ length: Math.ceil(sensores.length / sensorsPerPage) }, (_, i) => (
+                      <li key={i} className='page-item'>
+                        <button onClick={() => paginate(i + 1)} className='page-link'>
+                          {i + 1}
                         </button>
-                        <button onClick={() => deleteSensor(sensor.sen_id)} className='btn btn-danger'>
-                          <i className='fa-solid fa-trash'></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
             </div>
-            <nav>
-              <ul className='pagination'>
-                {Array.from({ length: Math.ceil(sensores.length / sensorsPerPage) }, (_, i) => (
-                  <li key={i} className='page-item'>
-                    <button onClick={() => paginate(i + 1)} className='page-link'>
-                      {i + 1}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
           </div>
-        </div>
-      </div>
-      <footer>
-        <p>Desarrollado por Isaac Romero - 2024</p>
-      </footer>
+          <footer>
+            <p>Desarrollado por Isaac Romero - 2024</p>
+          </footer>
+        </>
+      )}
     </div>
   );
 };

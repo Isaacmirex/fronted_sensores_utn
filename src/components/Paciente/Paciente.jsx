@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import Preloader from '../Preloader/Preloader'; 
 import { show_alerta } from '../SignosVitales/Functions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -25,6 +26,7 @@ const Paciente = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [patientsPerPage] = useState(7);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getPacientes();
@@ -35,8 +37,10 @@ const Paciente = () => {
       const respuesta = await axios.get(url);
       const sortedPacientes = respuesta.data.sort((a, b) => a.usr_id - b.usr_id);
       setPacientes(sortedPacientes);
+      setIsLoading(false); // Datos cargados, desactivar preloader
     } catch (error) {
-      console.error('Error al obtener estrudiante:', error);
+      console.error('Error al obtener estudiante:', error);
+      setIsLoading(false); // En caso de error, desactivar preloader
     }
   };
 
@@ -69,7 +73,7 @@ const Paciente = () => {
       getPacientes();
     } catch (error) {
       console.error('Error al guardar Estudiante:', error);
-      showErrorAlert('Hubo un error al guardar el Estrudiante');
+      showErrorAlert('Hubo un error al guardar el Estudiante');
     }
   };
 
@@ -187,6 +191,7 @@ const Paciente = () => {
 
   return (
     <div>
+      <Preloader load={isLoading} />
       <h1>Estudiantes</h1>
       <div className='container-fluid'>
         <div className='row mt-3'>
