@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import Preloader from '../Preloader/Preloader'; // Asegúrate de ajustar la ruta según tu estructura de archivos
 import './ResultadosGlobalesCSS.css'; // Importa el archivo CSS
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -13,6 +14,7 @@ const ResultadosGlobales = () => {
   const [chartData, setChartData] = useState({});
   const [generalChartData, setGeneralChartData] = useState({});
   const [totalStudents, setTotalStudents] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +23,8 @@ const ResultadosGlobales = () => {
         setData(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -91,32 +95,38 @@ const ResultadosGlobales = () => {
 
   return (
     <div id="resultados-globales-container">
-      <h1 id="resultados-globales-title">Resultados Globales</h1>
-      <div id="resultados-globales-charts-container">
-        {facultades.map(facultad => (
-          chartData[facultad] ? (
-            <div key={facultad} className="chart-wrapper">
-              <h2 className="chart-title">Estrés en {facultad}</h2>
-              <div className="chart-and-legend">
-                <Pie data={chartData[facultad]} />
+      <Preloader load={isLoading} />
+      {!isLoading && (
+        <>
+          <h1 id="resultados-globales-title">Resultados Globales</h1>
+          <div id="resultados-globales-charts-container">
+            {facultades.map(facultad => (
+              chartData[facultad] ? (
+                <div key={facultad} className="chart-wrapper">
+                  <h2 className="chart-title">Estrés en {facultad}</h2>
+                  <div className="chart-and-legend">
+                    <Pie data={chartData[facultad]} />
+                  </div>
+                </div>
+              ) : null
+            ))}
+            {generalChartData.labels && generalChartData.datasets ? (
+              <div className="chart-wrapper">
+                <h2 className="chart-title">Total De Muestra: {totalStudents}</h2>
+                <div className="chart-and-legend">
+                  <Pie data={generalChartData} />
+                </div>
               </div>
-            </div>
-          ) : null
-        ))}
-        {generalChartData.labels && generalChartData.datasets ? (
-          <div className="chart-wrapper">
-            <h2 className="chart-title">Total De Muestra: {totalStudents}</h2>
-            <div className="chart-and-legend">
-              <Pie data={generalChartData} />
-            </div>
+            ) : null}
           </div>
-        ) : null}
-      </div>
-      <footer>
-        <p>Desarrollado por Isaac Romero - 2024</p>
-      </footer>
+          <footer>
+            <p>Desarrollado por Isaac Romero - 2024</p>
+          </footer>
+        </>
+      )}
     </div>
   );
 };
 
 export default ResultadosGlobales;
+
