@@ -17,7 +17,7 @@ const SignosVitales = () => {
   const [sen_temperatura, setSenTemperatura] = useState('');
   const [sen_freq_respiratoria, setSenFreqRespiratoria] = useState('');
   const [sen_freq_cardiaca, setSenFreqCardiaca] = useState('');
-  const [usr, setUsr] = useState('');
+  const [usr, setUsr] = useState('1');
   const [modalTitle, setModalTitle] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sensorsPerPage] = useState(7);
@@ -126,6 +126,7 @@ const SignosVitales = () => {
     clearInputs();
     if (op === 1) {
       setModalTitle('Registrar Sensor');
+      setUsr('1'); // Valor por defecto al registrar
     } else if (op === 2) {
       setModalTitle('Editar Sensor');
       setSen_id(id ?? '');
@@ -133,7 +134,7 @@ const SignosVitales = () => {
       setSenTemperatura(temperatura ?? '');
       setSenFreqRespiratoria(freq_respiratoria ?? '');
       setSenFreqCardiaca(freq_cardiaca ?? '');
-      setUsr(usuario ?? '');
+      setUsr(usuario ?? '1');
     }
     window.setTimeout(function () {
       document.getElementById('sen_id').focus();
@@ -146,7 +147,7 @@ const SignosVitales = () => {
     setSenTemperatura('');
     setSenFreqRespiratoria('');
     setSenFreqCardiaca('');
-    setUsr('');
+    setUsr('1');
   };
 
   const showSuccessAlert = (message) => {
@@ -196,34 +197,34 @@ const SignosVitales = () => {
             <div className='modal-dialog'>
               <div className='modal-content'>
                 <div className='modal-header'>
-                  <h5 className='modal-title'>{modalTitle}</h5>
+                  <h5 className='modal-title text-black'>{modalTitle}</h5>
                   <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' onClick={closeModal}></button>
                 </div>
                 <div className='modal-body'>
                   <form>
-                    <div className='form-group'>
+                    <div className='form-group text-black'>
                       <label htmlFor='sen_id'>ID</label>
                       <input id='sen_id' type='text' className='form-control' value={sen_id} onChange={e => setSen_id(e.target.value)} placeholder='ID' />
                     </div>
-                    <div className='form-group'>
+                    <div className='form-group text-black'>
                       <label htmlFor='sen_emg'>EMG</label>
                       <input id='sen_emg' type='text' className='form-control' value={sen_emg} onChange={e => setSenEmg(e.target.value)} placeholder='EMG' />
                     </div>
-                    <div className='form-group'>
+                    <div className='form-group text-black'>
                       <label htmlFor='sen_temperatura'>Temperatura</label>
                       <input id='sen_temperatura' type='text' className='form-control' value={sen_temperatura} onChange={e => setSenTemperatura(e.target.value)} placeholder='Temperatura' />
                     </div>
-                    <div className='form-group'>
+                    <div className='form-group text-black'>
                       <label htmlFor='sen_freq_respiratoria'>Frecuencia Respiratoria</label>
                       <input id='sen_freq_respiratoria' type='text' className='form-control' value={sen_freq_respiratoria} onChange={e => setSenFreqRespiratoria(e.target.value)} placeholder='Frecuencia Respiratoria' />
                     </div>
-                    <div className='form-group'>
+                    <div className='form-group text-black'>
                       <label htmlFor='sen_freq_cardiaca'>Frecuencia Cardíaca</label>
                       <input id='sen_freq_cardiaca' type='text' className='form-control' value={sen_freq_cardiaca} onChange={e => setSenFreqCardiaca(e.target.value)} placeholder='Frecuencia Cardíaca' />
                     </div>
-                    <div className='form-group'>
+                    <div className='form-group text-black'>
                       <label htmlFor='usr'>Usuario</label>
-                      <input id='usr' type='text' className='form-control' value={usr} onChange={e => setUsr(e.target.value)} placeholder='Usuario' />
+                      <input id='usr' type='text' className='form-control' value={usr} placeholder='Usuario' readOnly />
                     </div>
                   </form>
                 </div>

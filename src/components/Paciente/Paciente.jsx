@@ -213,23 +213,23 @@ const Paciente = () => {
             </div>
             <div className='modal-body'>
               <form>
-                <div className='form-group'>
+                <div className='form-group text-black'>
                   <label htmlFor='usr_id'>ID</label>
                   <input id='usr_id' type='text' className='form-control' value={usr_id} onChange={e => setId(e.target.value)} placeholder='ID (ingresar 0)' disabled />
                 </div>
-                <div className='form-group'>
+                <div className='form-group text-black'>
                   <label htmlFor='usr_edad'>Edad</label>
                   <input id='usr_edad' type='text' className='form-control' value={usr_edad} onChange={e => setEdad(e.target.value)} placeholder='Edad (años)' />
                 </div>
-                <div className='form-group'>
+                <div className='form-group text-black'>
                   <label htmlFor='usr_peso'>Peso</label>
                   <input id='usr_peso' type='text' className='form-control' value={usr_peso} onChange={e => setPeso(e.target.value)} placeholder='Peso (kg)' />
                 </div>
-                <div className='form-group'>
+                <div className='form-group text-black'>
                   <label htmlFor='usr_altura'>Altura</label>
                   <input id='usr_altura' type='text' className='form-control' value={usr_altura} onChange={e => setAltura(e.target.value)} placeholder='Altura (cm)' />
                 </div>
-                <div className='form-group'>
+                <div className='form-group text-black'>
                   <label htmlFor='usr_genero'>Género</label>
                   <select id='usr_genero' className='form-control' value={usr_genero} onChange={e => setGenero(e.target.value)}>
                     <option value=''>Seleccione Genero</option>
@@ -238,7 +238,7 @@ const Paciente = () => {
                     <option value='N'>Neutro</option>
                   </select>
                 </div>
-                <div className='form-group'>
+                <div className='form-group text-black'>
                   <label htmlFor='usr_hijos'>Hijos</label>
                   <select id='usr_hijos' className='form-control' value={usr_hijos} onChange={e => setHijos(e.target.value)}>
                     <option value=''>Seleccione si tiene hijos</option>
@@ -246,7 +246,7 @@ const Paciente = () => {
                     <option value='0'>No</option>
                   </select>
                 </div>
-                <div className='form-group'>
+                <div className='form-group text-black'>
                   <label htmlFor='usr_vive_solo'>Vive Solo</label>
                   <select id='usr_vive_solo' className='form-control' value={usr_vive_solo} onChange={e => setViveSolo(e.target.value)}>
                     <option value=''>Seleccione si vive solo</option>
@@ -254,7 +254,7 @@ const Paciente = () => {
                     <option value='0'>No</option>
                   </select>
                 </div>
-                <div className='form-group'>
+                <div className='form-group text-black'>
                   <label htmlFor='usr_facultad'>Facultad</label>
                   <select id='usr_facultad' className='form-control' value={usr_facultad} onChange={e => setFacultad(e.target.value)}>
                     <option value=''>Seleccione facultad</option>
@@ -265,7 +265,7 @@ const Paciente = () => {
                     <option value='FICAYA'>FICAYA</option>
                   </select>
                 </div>
-                <div className='form-group'>
+                <div className='form-group text-black'>
                   <label htmlFor='usr_trabaja'>Trabaja</label>
                   <select id='usr_trabaja' className='form-control' value={usr_trabaja} onChange={e => setTrabaja(e.target.value)}>
                     <option value=''>Seleccione si trabaja</option>
@@ -273,7 +273,7 @@ const Paciente = () => {
                     <option value='0'>No</option>
                   </select>
                 </div>
-                <div className='form-group'>
+                <div className='form-group text-black'>
                   <label htmlFor='usr_estres'>Estrés</label>
                   <input id='usr_estres' type='text' className='form-control' value={usr_estres} onChange={e => setEstres(e.target.value)} placeholder='Estrés (Ingrese cualquier valor)' />
                 </div>
