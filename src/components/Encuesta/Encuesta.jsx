@@ -131,12 +131,16 @@ const Encuesta = () => {
                 Enviar
               </button>
             )}
+             <footer>
+            <p>Desarrollado por Isaac Romero - 2024</p>
+          </footer>
           </div>
           <div className="resultado-encuesta">
             {resultadoEncuesta !== null && (
               <p>Resultado de la encuesta: {resultadoEncuesta}</p>
             )}
           </div>
+         
         </>
       )}
       {!isLoading && !apiConnected && (
@@ -144,6 +148,7 @@ const Encuesta = () => {
           <p>No se pudo conectar con la API. Por favor, intente de nuevo más tarde.</p>
         </div>
       )}
+      
     </div>
   );
 };
