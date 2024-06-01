@@ -74,8 +74,9 @@
   font-size: 1.2em;
 }
 
-footer {
-  margin-top: 20px;
+.footerEncuesta {
+  margin-top: 10px;
   text-align: center;
-  color: #666;
+  color: #000000;
+  font-size: 15px;
 }

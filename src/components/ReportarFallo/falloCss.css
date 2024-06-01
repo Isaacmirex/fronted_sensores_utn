@@ -20,7 +20,7 @@
 /* Estilo para el título de la tarjeta */
 #fallo-card-title {
   font-size: 1.5rem; /* Tamaño del texto */
-  color: #ffc107;
+  color: #d20a11;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -28,7 +28,7 @@
 /* Estilo para los labels del formulario */
 #fallo-card-form label {
   font-weight: bold;
-  color: #ffc107;
+  color: #d20a11;
   display: block;
   margin-bottom: 5px;
 }
@@ -37,7 +37,7 @@
 #fallo-card-form .form-control {
   background-color: #495057;
   color: #fff;
-  border: 1px solid #ffc107;
+  border: 1px solid #d20a11;
   border-radius: 5px;
   margin-bottom: 15px;
   width: 100%;
@@ -54,16 +54,16 @@
 #fallo-card-form .form-control:focus {
   background-color: #495057;
   color: #fff;
-  border-color: #ffc107;
+  border-color: #d20a11;
   box-shadow: none;
   outline: none;
 }
 
 /* Estilo para el botón */
 #fallo-card-form .btn-warning {
-  background-color: #ffc107;
+  background-color: #d20a11;
   border: none;
-  color: #000;
+  color: #ffffff;
   font-weight: bold;
   padding: 10px 20px;
   border-radius: 5px;

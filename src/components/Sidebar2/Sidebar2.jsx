@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "./logo3.svg";
+import utnLogo from "./utn.png";
 import "./styles.css";
 
 const navItems = [
@@ -9,12 +10,10 @@ const navItems = [
   { name: "Inventory", title: "Encuesta EPP", path: "/Encuesta" },
   { name: "cardiology", title: "Signos Vitales", path: "/SignosVitales" },
   { name: "Person_Celebrate", title: "Estrés", path: "/Estres" },
-  // { name: "Data_loss_Prevention", title: "Resultados por paciente", path: "/ResultadosPaciente" },
   { name: "Data_Usage", title: "Resultados globales", path: "/ResultadosGlobales" },
   { name: "book_4", title: "Manual de usuario", path: "/ManualUsuario" },
   { name: "Warning", title: "Reportar un fallo", path: "/ReportarFallo" },
   { name: "Hail", title: "Autor Isaac Romero", path: "/Autor" },
-  // { name: "logout", title: "Cerrar sesión", path: "/Logout" }
 ];
 
 export const Sidebar2 = () => {
@@ -32,15 +31,6 @@ export const Sidebar2 = () => {
       <aside className={`sidebar-2 ${isOpen ? "open" : ""}`}>
         <div className="inner">
           <header>
-            {/* <button
-              type="button"
-              className="sidebar-2-burger"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              <span className="material-symbols-outlined">
-                {isOpen ? "close" : "menu"}
-              </span>
-            </button> */}
             <img src={logo} style={{ width: "200px", height: "auto" }} alt="Logo" />
           </header>
           <nav>
@@ -58,6 +48,9 @@ export const Sidebar2 = () => {
               </Link>
             ))}
           </nav>
+          <footer className="sidebar-footer">
+            <img src={utnLogo} style={{ width: "100%", height: "auto" }} alt="UTN Logo" />
+          </footer>
         </div>
       </aside>
     </section>

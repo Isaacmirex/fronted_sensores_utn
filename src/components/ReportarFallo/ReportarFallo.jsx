@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Swal from 'sweetalert2'; // Importar SweetAlert2
-import './falloCss.css'; // Importar tu archivo CSS personalizado
+import Swal from "sweetalert2"; // Importar SweetAlert2
+import "./falloCss.css"; // Importar tu archivo CSS personalizado
 
 const ReportarFallo = () => {
   const [titulo, setTitulo] = useState("");
@@ -17,11 +17,11 @@ const ReportarFallo = () => {
     setDescripcion("");
     // Mostrar la alerta
     Swal.fire({
-      icon: 'success',
-      title: 'Mensaje enviado',
-      text: 'Gracias por reportar el fallo.',
-      confirmButtonColor: '#ffc107', // Color amarillo
-      confirmButtonClass: 'btn btn-warning', // Botón amarillo con letras negras
+      icon: "success",
+      title: "Mensaje enviado",
+      text: "Gracias por reportar el fallo.",
+      confirmButtonColor: "#ffc107", // Color amarillo
+      confirmButtonClass: "btn btn-warning", // Botón amarillo con letras negras
     });
   };
 
@@ -62,6 +62,9 @@ const ReportarFallo = () => {
               </button>
             </div>
           </form>
+          <footer>
+            <p>Desarrollado por Isaac Romero - 2024</p>
+          </footer>
         </div>
       </div>
     </div>

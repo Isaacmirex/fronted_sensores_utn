@@ -46,7 +46,7 @@
   position: absolute;
   width: 18rem;  /* Aumenta el tamaño del fondo interno */
   height: 18rem; /* Aumenta el tamaño del fondo interno */
-  background: #1a1a1a; /* Fondo interno del círculo */
+  background: #706f6f; /* Fondo interno del círculo */
   border-radius: 50%;
   z-index: 1;
 }

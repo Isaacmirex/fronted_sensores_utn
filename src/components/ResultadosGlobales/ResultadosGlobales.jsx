@@ -51,12 +51,12 @@ const ResultadosGlobales = () => {
               label: 'Nivel de Estrés',
               data: [noStressCount, stressCount],
               backgroundColor: [
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 99, 132, 0.2)'
+                '#706f6f',
+                '#d20a11'
               ],
               borderColor: [
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 99, 132, 1)'
+                '#ffffff',
+                '#ffffff'
               ],
               borderWidth: 1
             }
@@ -79,12 +79,12 @@ const ResultadosGlobales = () => {
             label: 'Nivel de Estrés',
             data: [totalNoStress, totalStress],
             backgroundColor: [
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 99, 132, 0.2)'
+              '#706f6f',
+              '#d20a11'
             ],
             borderColor: [
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 99, 132, 1)'
+              '#ffffff',
+              '#ffffff'
             ],
             borderWidth: 1
           }
@@ -92,6 +92,16 @@ const ResultadosGlobales = () => {
       });
     }
   }, [data]);
+
+  const options = {
+    plugins: {
+      legend: {
+        labels: {
+          color: '#ffffff' // Color blanco para las etiquetas de la leyenda
+        }
+      }
+    }
+  };
 
   return (
     <div id="resultados-globales-container">
@@ -105,7 +115,7 @@ const ResultadosGlobales = () => {
                 <div key={facultad} className="chart-wrapper">
                   <h2 className="chart-title">Estrés en {facultad}</h2>
                   <div className="chart-and-legend">
-                    <Pie data={chartData[facultad]} />
+                    <Pie data={chartData[facultad]} options={options} />
                   </div>
                 </div>
               ) : null
@@ -114,7 +124,7 @@ const ResultadosGlobales = () => {
               <div className="chart-wrapper">
                 <h2 className="chart-title">Total De Muestra: {totalStudents}</h2>
                 <div className="chart-and-legend">
-                  <Pie data={generalChartData} />
+                  <Pie data={generalChartData} options={options} />
                 </div>
               </div>
             ) : null}
@@ -129,4 +139,3 @@ const ResultadosGlobales = () => {
 };
 
 export default ResultadosGlobales;
-

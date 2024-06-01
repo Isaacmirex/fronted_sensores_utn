@@ -4,18 +4,11 @@ body {
   padding: 0; /* Asegura que no haya ningún relleno */
 }
 
-.home-container {
-  height: 97vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
-  background-image: url('https://images.pexels.com/photos/3807738/pexels-photo-3807738.jpeg');
-  background-size: cover; /* Cubre todo el fondo */
-  background-position: center; /* Centra la imagen */
-  display: flex;
-  flex-direction: column;
-}
+
 
 .content {
   flex: 1; /* El contenido ocupa todo el espacio restante */
-  background: rgba(0, 0, 0, 0.7); /* Color de fondo negro con opacidad */
+  /* Color de fondo negro con opacidad */
   color: #ffffff; /* Color de texto blanco */
   padding: 20px; /* Añade un espacio de relleno al contenido */
   text-align: justify; /* Justifica el texto */
@@ -24,7 +17,7 @@ body {
 
 h1 {
   text-align: center; /* Centra el título */
-  color: #27f7e9; 
+  color: #ffffff; 
   font-weight: bold;
   text-transform: uppercase;
 }

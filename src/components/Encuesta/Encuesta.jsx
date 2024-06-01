@@ -131,9 +131,9 @@ const Encuesta = () => {
                 Enviar
               </button>
             )}
-             <footer>
+             <div className="footerEncuesta" >
             <p>Desarrollado por Isaac Romero - 2024</p>
-          </footer>
+          </div>
           </div>
           <div className="resultado-encuesta">
             {resultadoEncuesta !== null && (

@@ -47,7 +47,7 @@ const ManualUsuario = () => {
           </div>
         </Row>
       </Container>
-      <footer className="footerHome">
+      <footer className="footer">
         <p>Desarrollado por Isaac Romero - 2024</p>
       </footer>
     </div>
