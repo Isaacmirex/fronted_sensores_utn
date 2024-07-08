@@ -20,7 +20,7 @@
 /* Estilo para el título de la tarjeta */
 #fallo-card-title {
   font-size: 1.5rem; /* Tamaño del texto */
-  color: #d20a11;
+  color: #ffffff;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -28,7 +28,7 @@
 /* Estilo para los labels del formulario */
 #fallo-card-form label {
   font-weight: bold;
-  color: #d20a11;
+  color: #ffffff;
   display: block;
   margin-bottom: 5px;
 }
@@ -76,7 +76,7 @@
 
 /* Estilo para el botón en hover */
 #fallo-card-form .btn-warning:hover {
-  background-color: #e0a800;
+  background-color: #ffffff;
   color: #000;
 }
 
