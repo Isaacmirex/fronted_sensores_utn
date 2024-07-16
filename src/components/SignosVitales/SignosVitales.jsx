@@ -13,7 +13,6 @@ const SignosVitales = () => {
   const url = 'https://web-production-8f98.up.railway.app/api/sensores/';
   const [sensores, setSensores] = useState([]);
   const [sen_id, setSen_id] = useState('');
-  const [sen_emg, setSenEmg] = useState('');
   const [sen_temperatura, setSenTemperatura] = useState('');
   const [sen_freq_respiratoria, setSenFreqRespiratoria] = useState('');
   const [sen_freq_cardiaca, setSenFreqCardiaca] = useState('');
@@ -42,7 +41,6 @@ const SignosVitales = () => {
   const handleGuardar = async () => {
     const nuevoSensor = {
       sen_id,
-      sen_emg,
       sen_temperatura,
       sen_freq_respiratoria,
       sen_freq_cardiaca,
@@ -122,7 +120,7 @@ const SignosVitales = () => {
     }
   };
 
-  const openModal = (op, id, emg, temperatura, freq_respiratoria, freq_cardiaca, usuario) => {
+  const openModal = (op, id, temperatura, freq_respiratoria, freq_cardiaca, usuario) => {
     clearInputs();
     if (op === 1) {
       setModalTitle('Registrar Sensor');
@@ -130,7 +128,6 @@ const SignosVitales = () => {
     } else if (op === 2) {
       setModalTitle('Editar Sensor');
       setSen_id(id ?? '');
-      setSenEmg(emg ?? '');
       setSenTemperatura(temperatura ?? '');
       setSenFreqRespiratoria(freq_respiratoria ?? '');
       setSenFreqCardiaca(freq_cardiaca ?? '');
@@ -143,7 +140,6 @@ const SignosVitales = () => {
 
   const clearInputs = () => {
     setSen_id('');
-    setSenEmg('');
     setSenTemperatura('');
     setSenFreqRespiratoria('');
     setSenFreqCardiaca('');
@@ -207,10 +203,6 @@ const SignosVitales = () => {
                       <input id='sen_id' type='text' className='form-control' value={sen_id} onChange={e => setSen_id(e.target.value)} placeholder='ID' />
                     </div>
                     <div className='form-group text-black'>
-                      <label htmlFor='sen_emg'>EMG</label>
-                      <input id='sen_emg' type='text' className='form-control' value={sen_emg} onChange={e => setSenEmg(e.target.value)} placeholder='EMG' />
-                    </div>
-                    <div className='form-group text-black'>
                       <label htmlFor='sen_temperatura'>Temperatura</label>
                       <input id='sen_temperatura' type='text' className='form-control' value={sen_temperatura} onChange={e => setSenTemperatura(e.target.value)} placeholder='Temperatura' />
                     </div>
@@ -245,7 +237,6 @@ const SignosVitales = () => {
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>EMG</th>
                         <th>Temperatura</th>
                         <th>Frecuencia Respiratoria</th>
                         <th>Frecuencia Cardíaca</th>
@@ -257,13 +248,12 @@ const SignosVitales = () => {
                       {currentSensors.map((sensor, index) => (
                         <tr key={index}>
                           <td>{sensor.sen_id}</td>
-                          <td>{sensor.sen_emg}</td>
                           <td>{sensor.sen_temperatura}</td>
                           <td>{sensor.sen_freq_respiratoria}</td>
                           <td>{sensor.sen_freq_cardiaca}</td>
                           <td>{sensor.usr}</td>
                           <td>
-                            <button onClick={() => openModal(2, sensor.sen_id, sensor.sen_emg, sensor.sen_temperatura, sensor.sen_freq_respiratoria, sensor.sen_freq_cardiaca, sensor.usr)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='#modalSensores'>
+                            <button onClick={() => openModal(2, sensor.sen_id, sensor.sen_temperatura, sensor.sen_freq_respiratoria, sensor.sen_freq_cardiaca, sensor.usr)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='#modalSensores'>
                               <i className='fa-solid fa-edit'></i>
                             </button>
                             <button onClick={() => deleteSensor(sensor.sen_id)} className='btn btn-danger'>
