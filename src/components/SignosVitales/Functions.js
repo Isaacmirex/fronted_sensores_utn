@@ -8,6 +8,7 @@ export function show_alerta(mensaje,icono,foco=''){
         icon:icono
     })
 
+    
 } 
 function onfocus(foco){
     if(foco !==''){
