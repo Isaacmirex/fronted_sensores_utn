@@ -64,8 +64,8 @@ const Estres = () => {
   }, [searchID]);
 
   const getColor = (nivel) => {
-    if (nivel < 30) return "green";
-    if (nivel < 60) return "yellow";
+    if (nivel < 10) return "green";
+    if (nivel < 35) return "yellow";
     return "red";
   };
 
@@ -86,12 +86,12 @@ const Estres = () => {
   };
 
   return (
-    <div className="container">
+    <div className="estres-container">
       <Preloader load={isLoading} />
       {!isLoading && (
         <>
-          <h1 className="title">Nivel de estrés estudiante</h1>
-          <div className="search-container my-4 flex justify-center items-center">
+          <h1 className="estres-title">Nivel de estrés estudiante</h1>
+          <div className="estres-search-container my-4 flex justify-center items-center">
             <input
               type="text"
               placeholder="Ingrese el ID del usuario"
@@ -101,42 +101,42 @@ const Estres = () => {
             />
             <button 
               onClick={handleSearch} 
-              className="btn-warning"
+              className="estres-btn-warning"
             >
               Buscar
             </button>
           </div>
           {error && <p className="error-message text-red-500">{error}</p>}
-          <div className="charts-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="chart-wrapper">
-              <h2 className="chart-title text-center">Modelo Inteligencia Artificial</h2>
-              <div className={`circle-chart ${getColor(estresUsuario)}`} style={{ '--value': estresUsuario }}>
-                <div className="circle-content">
-                  <span className="circle-value">{estresUsuario}%</span>
-                  <span className="circle-label">Estrés</span>
+          <div className="estres-charts-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="estres-chart-wrapper">
+              <h2 className="estres-chart-title text-center">Modelo Inteligencia Artificial</h2>
+              <div className={`estres-circle-chart ${getColor(estresUsuario)}`} style={{ '--value': estresUsuario }}>
+                <div className="estres-circle-content">
+                  <span className="estres-circle-value">{estresUsuario}%</span>
+                  <span className="estres-circle-label">Estrés</span>
                 </div>
               </div>
             </div>
-            <div className="chart-wrapper">
-              <h2 className="chart-title text-center">Encuesta de estrés percibido</h2>
-              <div className={`circle-chart ${getColor(estresData)}`} style={{ '--value': estresData }}>
-                <div className="circle-content">
-                  <span className="circle-value">{estresData.toFixed(2)}%</span>
-                  <span className="circle-label">Estrés</span>
+            <div className="estres-chart-wrapper">
+              <h2 className="estres-chart-title text-center">Encuesta de estrés percibido</h2>
+              <div className={`estres-circle-chart ${getColor(estresData)}`} style={{ '--value': estresData }}>
+                <div className="estres-circle-content">
+                  <span className="estres-circle-value">{estresData.toFixed(2)}%</span>
+                  <span className="estres-circle-label">Estrés</span>
                 </div>
               </div>
             </div>
-            <div className="chart-wrapper">
-              <h2 className="chart-title text-center">Estrés Total</h2>
-              <div className={`circle-chart ${getColor(estresTotal)}`} style={{ '--value': estresTotal }}>
-                <div className="circle-content">
-                  <span className="circle-value">{estresTotal.toFixed(2)}%</span>
-                  <span className="circle-label">Estrés</span>
+            <div className="estres-chart-wrapper">
+              <h2 className="estres-chart-title text-center">Estrés Total</h2>
+              <div className={`estres-circle-chart ${getColor(estresTotal)}`} style={{ '--value': estresTotal }}>
+                <div className="estres-circle-content">
+                  <span className="estres-circle-value">{estresTotal.toFixed(2)}%</span>
+                  <span className="estres-circle-label">Estrés</span>
                 </div>
               </div>
             </div>
           </div>
-          <footer className="text-center mt-4">
+          <footer className="estres-text-center mt-4">
             <p>Desarrollado por Isaac Romero - 2024</p>
           </footer>
         </>

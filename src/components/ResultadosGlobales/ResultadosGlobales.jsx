@@ -15,6 +15,7 @@ const ResultadosGlobales = () => {
   const [generalChartData, setGeneralChartData] = useState({});
   const [totalStudents, setTotalStudents] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const nivelStres=25;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +35,7 @@ const ResultadosGlobales = () => {
     if (data.length > 0) {
       const facultadData = facultades.map(facultad => {
         const students = data.filter(student => student.usr_facultad === facultad);
-        const stressCount = students.filter(student => student.usr_estres > 50).length;
+        const stressCount = students.filter(student => student.usr_estres > nivelStres).length;
         const noStressCount = students.length - stressCount;
         return {
           facultad,
@@ -69,7 +70,7 @@ const ResultadosGlobales = () => {
 
       const totalStudents = data.length;
       setTotalStudents(totalStudents);
-      const totalStress = data.filter(student => student.usr_estres > 50).length;
+      const totalStress = data.filter(student => student.usr_estres > nivelStres).length;
       const totalNoStress = totalStudents - totalStress;
 
       setGeneralChartData({
