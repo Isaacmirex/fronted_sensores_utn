@@ -1,3 +1,4 @@
+/* Estilo para el contenedor principal */
 .container {
   display: flex;
   flex-direction: column;
@@ -80,4 +81,52 @@
 
 .circle-chart.red {
   --color: #e74c3c;
+}
+
+/* Estilo para el botón */
+.btn-warning {
+  background-color: #d20a11;
+  border: none;
+  color: #ffffff; 
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center; /* Centrar el texto horizontalmente */
+  align-items: center; /* Centrar el texto verticalmente */
+  
+}
+
+/* Estilo para el botón en hover */
+.btn-warning:hover {
+  background-color: #ffffff;
+  color: #000;
+}
+
+/* Asegurar que los elementos estén alineados correctamente */
+.text-center {
+  text-align: center;
+}
+
+/* Estilo para el contenedor de búsqueda */
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Estilo para el campo de entrada */
+.search-container input {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+/* Estilo para el botón de búsqueda */
+.search-container .btn-warning {
+  margin-left: 10px;
 }

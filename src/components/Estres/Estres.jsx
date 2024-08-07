@@ -8,35 +8,60 @@ const Estres = () => {
   const [ecTotal, setEcTotal] = useState(0);
   const [estresTotal, setEstresTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [userID, setUserID] = useState('30');
+  const [searchID, setSearchID] = useState('30');
+  const [error, setError] = useState(null);
+
+  const fetchEstresUsuario = async (id) => {
+    try {
+      const { data } = await axios.get('https://web-production-8f98.up.railway.app/api/usuarios/');
+      const usuario = data.find(user => user.usr_id === parseInt(id));
+      if (usuario) {
+        setEstresUsuario(usuario.usr_estres);
+      } else {
+        setEstresUsuario(0);
+        setError("Usuario no encontrado");
+      }
+    } catch (error) {
+      console.error("Error fetching user stress data:", error);
+      setError("Error fetching user stress data: " + error.message);
+      setEstresUsuario(0);
+    }
+  };
+
+  const fetchEncuesta = async (id) => {
+    try {
+      const { data } = await axios.get('https://web-production-8f98.up.railway.app/api/encuestas/');
+      const encuestasUsuario = data.filter(encuesta => encuesta.usr === parseInt(id));
+      if (encuestasUsuario.length > 0) {
+        const ultimaEncuesta = encuestasUsuario.sort((a, b) => b.ec_id - a.ec_id)[0];
+        setEcTotal(ultimaEncuesta.ec_total);
+      } else {
+        setEcTotal(0);
+        setError("Datos no encontrados");
+      }
+    } catch (error) {
+      console.error("Error fetching survey data:", error);
+      setError("Error fetching survey data: " + error.message);
+      setEcTotal(0);
+    }
+  };
+
+  const fetchData = async (id) => {
+    setIsLoading(true);
+    setError(null);
+    await fetchEstresUsuario(id);
+    await fetchEncuesta(id);
+    setIsLoading(false); // Datos cargados, desactivar preloader
+  };
 
   useEffect(() => {
-    const fetchEstresUsuario = async () => {
-      try {
-        const { data } = await axios.get('https://web-production-8f98.up.railway.app/api/usuarios/');
-        const ultimoUsuario = data.sort((a, b) => b.usr_id - a.usr_id)[0];
-        setEstresUsuario(ultimoUsuario.usr_estres);
-      } catch (error) {
-        console.error("Error fetching user stress data:", error);
-      }
-    };
-    const fetchEncuesta = async () => {
-      try {
-        const { data } = await axios.get('https://web-production-8f98.up.railway.app/api/encuestas/');
-        const ultimaEncuesta = data.sort((a, b) => b.ec_id - a.ec_id)[0];
-        setEcTotal(ultimaEncuesta.ec_total);
-      } catch (error) {
-        console.error("Error fetching survey data:", error);
-      }
-    };
-
-    const fetchData = async () => {
-      await fetchEstresUsuario();
-      await fetchEncuesta();
-      setIsLoading(false); // Datos cargados, desactivar preloader
-    };
-
-    fetchData();
-  }, []);
+    if (searchID !== null) {
+      fetchData(searchID);
+    } else {
+      setIsLoading(false); // Desactivar preloader si no hay búsqueda
+    }
+  }, [searchID]);
 
   const getColor = (nivel) => {
     if (nivel < 30) return "green";
@@ -49,11 +74,16 @@ const Estres = () => {
   };
 
   const stressPercentage = calculatePercentage(ecTotal, 56);
+  const estresData = ecTotal;
 
   useEffect(() => {
-    const totalEstres = (estresUsuario + stressPercentage) / 2;
+    const totalEstres = (estresUsuario + ecTotal) / 2;
     setEstresTotal(totalEstres);
-  }, [estresUsuario, stressPercentage]);
+  }, [estresUsuario, ecTotal]);
+
+  const handleSearch = () => {
+    setSearchID(userID);
+  };
 
   return (
     <div className="container">
@@ -61,9 +91,25 @@ const Estres = () => {
       {!isLoading && (
         <>
           <h1 className="title">Nivel de estrés estudiante</h1>
-          <div className="charts-container">
+          <div className="search-container my-4 flex justify-center items-center">
+            <input
+              type="text"
+              placeholder="Ingrese el ID del usuario"
+              value={userID}
+              onChange={(e) => setUserID(e.target.value)}
+              className="border border-gray-300 p-2 rounded-md mr-2"
+            />
+            <button 
+              onClick={handleSearch} 
+              className="btn-warning"
+            >
+              Buscar
+            </button>
+          </div>
+          {error && <p className="error-message text-red-500">{error}</p>}
+          <div className="charts-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="chart-wrapper">
-              <h2 className="chart-title">Sensores biométricos</h2>
+              <h2 className="chart-title text-center">Modelo Inteligencia Artificial</h2>
               <div className={`circle-chart ${getColor(estresUsuario)}`} style={{ '--value': estresUsuario }}>
                 <div className="circle-content">
                   <span className="circle-value">{estresUsuario}%</span>
@@ -72,16 +118,16 @@ const Estres = () => {
               </div>
             </div>
             <div className="chart-wrapper">
-              <h2 className="chart-title">Encuesta de estrés percibido</h2>
-              <div className={`circle-chart ${getColor(stressPercentage)}`} style={{ '--value': stressPercentage }}>
+              <h2 className="chart-title text-center">Encuesta de estrés percibido</h2>
+              <div className={`circle-chart ${getColor(estresData)}`} style={{ '--value': estresData }}>
                 <div className="circle-content">
-                  <span className="circle-value">{stressPercentage.toFixed(2)}%</span>
+                  <span className="circle-value">{estresData.toFixed(2)}%</span>
                   <span className="circle-label">Estrés</span>
                 </div>
               </div>
             </div>
             <div className="chart-wrapper">
-              <h2 className="chart-title">Estrés Total</h2>
+              <h2 className="chart-title text-center">Estrés Total</h2>
               <div className={`circle-chart ${getColor(estresTotal)}`} style={{ '--value': estresTotal }}>
                 <div className="circle-content">
                   <span className="circle-value">{estresTotal.toFixed(2)}%</span>
@@ -90,7 +136,7 @@ const Estres = () => {
               </div>
             </div>
           </div>
-          <footer>
+          <footer className="text-center mt-4">
             <p>Desarrollado por Isaac Romero - 2024</p>
           </footer>
         </>
