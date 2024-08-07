@@ -98,7 +98,7 @@ const Encuesta = () => {
                       backgroundColor:
                         respuestas[`ec_pregunta_${preguntaActual + 1}`] ===
                         opcion.valor
-                          ? '#2f922f'
+                          ? '#d20a11'
                           : '',
                     }}
                   >
