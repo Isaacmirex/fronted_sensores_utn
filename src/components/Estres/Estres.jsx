@@ -4,28 +4,33 @@ import Preloader from '../Preloader/Preloader'; // Asegúrate de ajustar la ruta
 import './EstresCSS.css'; // Importa el archivo CSS
 
 const Estres = () => {
-  const [estresUsuario, setEstresUsuario] = useState(0);
+  const [usr_estres_puntos, setUsrEstresPuntos] = useState(0);
+  const [usr_estres_texto, setUsrEstresTexto] = useState('');
   const [ecTotal, setEcTotal] = useState(0);
   const [estresTotal, setEstresTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [userID, setUserID] = useState('30');
   const [searchID, setSearchID] = useState('30');
-  const [error, setError] = useState(null);
+  const [mensajeEstres, setMensajeEstres] = useState('');
 
   const fetchEstresUsuario = async (id) => {
     try {
       const { data } = await axios.get('https://web-production-8f98.up.railway.app/api/usuarios/');
       const usuario = data.find(user => user.usr_id === parseInt(id));
       if (usuario) {
-        setEstresUsuario(usuario.usr_estres);
+        setUsrEstresPuntos(usuario.usr_estres_puntos);
+        setUsrEstresTexto(usuario.usr_estres_texto);
+        setMensajeEstres(`Estado del estrés: ${usuario.usr_estres_texto}`);
       } else {
-        setEstresUsuario(0);
-        setError("Usuario no encontrado");
+        setUsrEstresPuntos(0);
+        setUsrEstresTexto('');
+        setMensajeEstres("Usuario no encontrado");
       }
     } catch (error) {
       console.error("Error fetching user stress data:", error);
-      setError("Error fetching user stress data: " + error.message);
-      setEstresUsuario(0);
+      setUsrEstresPuntos(0);
+      setUsrEstresTexto('');
+      setMensajeEstres("Error al obtener los datos del usuario");
     }
   };
 
@@ -38,18 +43,17 @@ const Estres = () => {
         setEcTotal(ultimaEncuesta.ec_total);
       } else {
         setEcTotal(0);
-        setError("Datos no encontrados");
+        setMensajeEstres(`Estado del estrés: ${usr_estres_texto}`);
       }
     } catch (error) {
       console.error("Error fetching survey data:", error);
-      setError("Error fetching survey data: " + error.message);
       setEcTotal(0);
+      setMensajeEstres(`Estado del estrés: ${usr_estres_texto}`);
     }
   };
 
   const fetchData = async (id) => {
     setIsLoading(true);
-    setError(null);
     await fetchEstresUsuario(id);
     await fetchEncuesta(id);
     setIsLoading(false); // Datos cargados, desactivar preloader
@@ -77,9 +81,9 @@ const Estres = () => {
   const estresData = ecTotal;
 
   useEffect(() => {
-    const totalEstres = (estresUsuario + ecTotal) / 2;
+    const totalEstres = (usr_estres_puntos + ecTotal) / 2;
     setEstresTotal(totalEstres);
-  }, [estresUsuario, ecTotal]);
+  }, [usr_estres_puntos, ecTotal]);
 
   const handleSearch = () => {
     setSearchID(userID);
@@ -106,13 +110,13 @@ const Estres = () => {
               Buscar
             </button>
           </div>
-          {error && <p className="error-message text-red-500">{error}</p>}
+          {mensajeEstres && <p className="estres-texto text-center">{mensajeEstres}</p>} {/* Mostrar el mensaje del estado de estrés */}
           <div className="estres-charts-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="estres-chart-wrapper">
               <h2 className="estres-chart-title text-center">Modelo Inteligencia Artificial</h2>
-              <div className={`estres-circle-chart ${getColor(estresUsuario)}`} style={{ '--value': estresUsuario }}>
+              <div className={`estres-circle-chart ${getColor(usr_estres_puntos)}`} style={{ '--value': usr_estres_puntos }}>
                 <div className="estres-circle-content">
-                  <span className="estres-circle-value">{estresUsuario}%</span>
+                  <span className="estres-circle-value">{usr_estres_puntos}%</span>
                   <span className="estres-circle-label">Estrés</span>
                 </div>
               </div>

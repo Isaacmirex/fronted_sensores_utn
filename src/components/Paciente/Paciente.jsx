@@ -22,7 +22,9 @@ const Paciente = () => {
   const [usr_vive_solo, setViveSolo] = useState('');
   const [usr_facultad, setFacultad] = useState('');
   const [usr_trabaja, setTrabaja] = useState('');
-  const [usr_estres, setEstres] = useState('');
+  const [usr_estres_puntos, setEstresPuntos] = useState('');
+  const [usr_estres_texto, setEstresTexto] = useState('');
+  const [usr_estres_porcentaje, setEstresPorcentaje] = useState('');
   const [modalTitle, setModalTitle] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [patientsPerPage] = useState(7);
@@ -55,7 +57,9 @@ const Paciente = () => {
       usr_vive_solo,
       usr_facultad,
       usr_trabaja,
-      usr_estres,
+      usr_estres_puntos,
+      usr_estres_texto,
+      usr_estres_porcentaje,
     };
     try {
       if (modalTitle === 'Editar Estudiante') {
@@ -127,7 +131,7 @@ const Paciente = () => {
     }
   };
 
-  const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, facultad, trabaja, estres) => {
+  const openModal = (op, id, edad, peso, altura, genero, hijos, vive_solo, facultad, trabaja, estres_puntos, estres_texto, estres_porcentaje) => {
     clearInputs();
     if (op === 1) {
       setModalTitle('Registrar Estudiante');
@@ -143,7 +147,9 @@ const Paciente = () => {
       setViveSolo(vive_solo ?? '');
       setFacultad(facultad ?? '');
       setTrabaja(trabaja ?? '');
-      setEstres(estres ?? '');
+      setEstresPuntos(estres_puntos ?? '');
+      setEstresTexto(estres_texto ?? '');
+      setEstresPorcentaje(estres_porcentaje ?? '');
     }
     window.setTimeout(function () {
       document.getElementById('usr_id').focus();
@@ -160,7 +166,9 @@ const Paciente = () => {
     setViveSolo('');
     setFacultad('');
     setTrabaja('');
-    setEstres('');
+    setEstresPuntos('');
+    setEstresTexto('');
+    setEstresPorcentaje('');
   };
 
   const showSuccessAlert = (message) => {
@@ -274,8 +282,16 @@ const Paciente = () => {
                   </select>
                 </div>
                 <div className='form-group text-black'>
-                  <label htmlFor='usr_estres'>Estrés</label>
-                  <input id='usr_estres' type='text' className='form-control' value={usr_estres} onChange={e => setEstres(e.target.value)} placeholder='Estrés (Ingrese cualquier valor)' />
+                  <label htmlFor='usr_estres_puntos'>Estrés en puntos escala EEP14</label> {/* Cambiado */}
+                  <input id='usr_estres_puntos' type='text' className='form-control' value={usr_estres_puntos} onChange={e => setEstresPuntos(e.target.value)} placeholder='Estrés en puntos (EEP14)' />
+                </div>
+                <div className='form-group text-black'>
+                  <label htmlFor='usr_estres_texto'>Reporte Estrés</label> {/* Cambiado */}
+                  <input id='usr_estres_texto' type='text' className='form-control' value={usr_estres_texto} onChange={e => setEstresTexto(e.target.value)} placeholder='Reporte Estrés' />
+                </div>
+                <div className='form-group text-black'>
+                  <label htmlFor='usr_estres_porcentaje'>Estrés en porcentaje % (0-100)</label> {/* Cambiado */}
+                  <input id='usr_estres_porcentaje' type='text' className='form-control' value={usr_estres_porcentaje} onChange={e => setEstresPorcentaje(e.target.value)} placeholder='Estrés en porcentaje (0-100)' />
                 </div>
               </form>
             </div>
@@ -304,7 +320,9 @@ const Paciente = () => {
                     <th>Vive Solo</th>
                     <th>Facultad</th>
                     <th>Trabaja</th>
-                    <th>Estrés</th>
+                    <th>Estrés EEP14</th> {/* Cambiado */}
+                    <th>Reporte Estrés</th> {/* Cambiado */}
+                    <th>Estrés en % </th> {/* Cambiado */}
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -320,9 +338,11 @@ const Paciente = () => {
                       <td>{paciente.usr_vive_solo}</td>
                       <td>{paciente.usr_facultad}</td>
                       <td>{paciente.usr_trabaja}</td>
-                      <td>{paciente.usr_estres}</td>
+                      <td>{paciente.usr_estres_puntos}</td> {/* Cambiado */}
+                      <td>{paciente.usr_estres_texto}</td> {/* Cambiado */}
+                      <td>{paciente.usr_estres_porcentaje}</td> {/* Cambiado */}
                       <td>
-                        <button onClick={() => openModal(2, paciente.usr_id, paciente.usr_edad, paciente.usr_peso, paciente.usr_altura, paciente.usr_genero, paciente.usr_hijos, paciente.usr_vive_solo, paciente.usr_facultad, paciente.usr_trabaja, paciente.usr_estres)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='#modalPacientes'>
+                        <button onClick={() => openModal(2, paciente.usr_id, paciente.usr_edad, paciente.usr_peso, paciente.usr_altura, paciente.usr_genero, paciente.usr_hijos, paciente.usr_vive_solo, paciente.usr_facultad, paciente.usr_trabaja, paciente.usr_estres_puntos, paciente.usr_estres_texto, paciente.usr_estres_porcentaje)} className='btn btn-warning' data-bs-toggle="modal" data-bs-target='#modalPacientes'>
                           <i className='fa-solid fa-edit'></i>
                         </button>
                         <button onClick={() => deletePaciente(paciente.usr_id)} className='btn btn-danger'>
